@@ -3,10 +3,12 @@ package at.mobappdev.flytta
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Context
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 
@@ -22,7 +24,7 @@ class StepCounter : AppCompatActivity(), SensorEventListener {
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
 
-    //STEPCOUNTER
+    //STEPCOUNTER, TODO: make it work with a locked screen
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         // auto generated method for sensorlistener
     }
@@ -51,5 +53,10 @@ class StepCounter : AppCompatActivity(), SensorEventListener {
         super.onPause()
         isRunning = false
         sensorManager?.unregisterListener(this)
+    }
+
+    fun goToReminderList(view: View){
+        val intent = Intent(this, ReminderList::class.java)
+        startActivity(intent)
     }
 }
