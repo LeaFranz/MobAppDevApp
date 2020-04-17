@@ -16,4 +16,9 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, StepCounter::class.java)
         startActivity(intent)
     }
+
+    fun goToHistory(view: View){
+        val intent = Intent(this, History::class.java)
+        startActivity(intent)
+    }
 }
