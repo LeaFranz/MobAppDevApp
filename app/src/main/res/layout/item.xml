@@ -10,26 +10,90 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/text_view1"
+            android:id="@+id/reminderName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Line 1"
-            android:textColor="@android:color/holo_blue_bright"
+            android:text="Reminder Name"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/text_view2"
-            android:layout_width="90dp"
+            android:id="@+id/everyText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/text_view1"
-            android:layout_alignParentEnd="true"
+            android:layout_below="@id/reminderName"
+            android:layout_alignParentStart="true"
             android:layout_marginTop="0dp"
-            android:layout_marginEnd="305dp"
-            android:text="Line 2"
+            android:text="every"
             android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="15sp"
+            android:layout_marginEnd="7dp"/>
+
+        <TextView
+            android:id="@+id/interval"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/everyText"
+            android:layout_toEndOf="@id/everyText"
+            android:text="30"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:layout_marginEnd="7dp"/>
+
+        <TextView
+            android:id="@+id/intervalType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/interval"
+            android:layout_toEndOf="@id/interval"
+            android:text="min"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/dayStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/everyText"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="0dp"
+            android:text="MO"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:layout_marginEnd="7dp"/>
+
+        <TextView
+            android:id="@+id/dayEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/dayStart"
+            android:layout_toEndOf="@id/dayStart"
+            android:text="FR"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:layout_marginEnd="12dp"/>
+
+        <TextView
+            android:id="@+id/timeStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/dayEnd"
+            android:layout_toEndOf="@id/dayEnd"
+            android:text="10.00"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:layout_marginEnd="7dp"/>
+
+        <TextView
+            android:id="@+id/timeEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/timeStart"
+            android:layout_toEndOf="@id/timeStart"
+            android:text="17.00"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
 
 
     </RelativeLayout>

@@ -55,8 +55,5 @@ class StepCounter : AppCompatActivity(), SensorEventListener {
         sensorManager?.unregisterListener(this)
     }
 
-    fun goToReminderList(view: View){
-        val intent = Intent(this, ReminderList::class.java)
-        startActivity(intent)
-    }
+
 }

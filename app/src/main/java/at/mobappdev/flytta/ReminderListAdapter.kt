@@ -7,20 +7,30 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item.view.*
 
-class Adapter(private val list: List<Item>, private var clickListener: OnItemClickListener) : RecyclerView.Adapter<Adapter.ViewHolder>() {
+class ReminderListAdapter(private val list: List<ReminderListItem>, private var clickListener: OnItemClickListener) : RecyclerView.Adapter<ReminderListAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClicked(item:Item, position:Int)
+        fun onItemClicked(item:ReminderListItem, position:Int)
     }
 
     // represents one line
     class ViewHolder(itemView : View): RecyclerView.ViewHolder(itemView) {
-        private val textView1: TextView = itemView.text_view1
-        private val textView2: TextView = itemView.text_view2
+        private val reminderName: TextView = itemView.reminderName
+        private val interval: TextView = itemView.interval
+        private val intervalType: TextView = itemView.intervalType
+        private val dayStart: TextView = itemView.dayStart
+        private val dayEnd: TextView = itemView.dayEnd
+        private val timeStart: TextView = itemView.timeStart
+        private val timeEnd: TextView = itemView.timeEnd
 
-        fun initialize(item:Item, listener:OnItemClickListener){
-            textView1.text = item.text1
-            textView2.text = item.text2
+        fun initialize(item:ReminderListItem, listener:OnItemClickListener){
+            reminderName.text = item.reminderName
+            interval.text = item.interval
+            intervalType.text = item.intervalType
+            dayStart.text = item.dayStart
+            dayEnd.text = item.dayEnd
+            timeStart.text = item.timeStart
+            timeEnd.text = item.timeEnd
 
             itemView.setOnClickListener{
                 listener.onItemClicked(item, adapterPosition)

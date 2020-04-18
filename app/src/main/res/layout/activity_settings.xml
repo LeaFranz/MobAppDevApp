@@ -4,17 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StepCounter">
+    tools:context=".Settings">
 
-    <TextView
-        android:id="@+id/stepCount"
+    <Button
+        android:id="@+id/stepCountTestButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="318dp"
-        android:text="0"
-        android:textSize="30sp"
+        android:layout_marginTop="322dp"
+        android:layout_marginBottom="361dp"
+        android:onClick="goToStepCounter"
+        android:text="step count test"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

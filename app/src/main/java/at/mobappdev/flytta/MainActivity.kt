@@ -12,13 +12,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
-    fun goToStepCounter(view: View){
-        val intent = Intent(this, StepCounter::class.java)
+    fun goToHistory(view: View){
+        val intent = Intent(this, History::class.java)
         startActivity(intent)
     }
 
-    fun goToHistory(view: View){
-        val intent = Intent(this, History::class.java)
+    fun goToSettings(view:View){
+        val intent = Intent(this, Settings::class.java)
+        startActivity(intent)
+    }
+
+    fun goToReminderList(view: View){
+        val intent = Intent(this, ReminderList::class.java)
         startActivity(intent)
     }
 }
