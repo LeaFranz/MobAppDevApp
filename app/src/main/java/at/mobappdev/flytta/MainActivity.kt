@@ -26,4 +26,8 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, ReminderList::class.java)
         startActivity(intent)
     }
+
+    override fun onBackPressed() {
+        moveTaskToBack(true)
+    }
 }

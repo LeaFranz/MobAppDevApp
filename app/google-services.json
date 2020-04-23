@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1092514450945",
+    "firebase_url": "https://flytta-b30e8.firebaseio.com",
+    "project_id": "flytta-b30e8",
+    "storage_bucket": "flytta-b30e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092514450945:android:1422df626cb8f38865fa00",
+        "android_client_info": {
+          "package_name": "at.mobappdev.flytta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1092514450945-b56ub5k7knv251nkj3969rqjnct4visv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyy1XSgx7fxVikQ_WPz_BDYUTU1V2bOX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1092514450945-b56ub5k7knv251nkj3969rqjnct4visv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

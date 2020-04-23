@@ -9,6 +9,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity  android:name=".login.RegisterActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="at.mobappdev.flytta.login.RegisterActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".login.LoginActivity">
+            <intent-filter>
+                <action android:name="at.mobappdev.flytta.login.LoginActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".login.RegisterActivity" />
+        </activity>
         <activity android:name=".Settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -17,7 +36,7 @@
         <activity android:name=".ReminderList">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StepCounter" />
+                android:value=".MainActivity" />
         </activity>
         <activity android:name=".StepCounter">
             <meta-data
@@ -25,12 +44,11 @@
                 android:value=".Settings" />
         </activity>
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
