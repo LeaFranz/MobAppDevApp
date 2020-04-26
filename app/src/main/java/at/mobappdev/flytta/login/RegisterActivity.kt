@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -98,6 +99,11 @@ class RegisterActivity : AppCompatActivity() {
         }
         if (email.isEmpty()) {
             emailRegisterEditText.setError("Please enter text for an email address.")
+            validationError = true
+        }
+        if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            emailRegisterEditText.setError("Please enter a valid email address.")
+            emailRegisterEditText.requestFocus()
             validationError = true
         }
         if (password.length < 6) {
