@@ -78,11 +78,11 @@ class LoginActivity : AppCompatActivity() {
             emailLoginEditText.setError("Please enter text for an email address.")
             validationError = true
         }
-        if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        /*if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             emailLoginEditText.setError("Please enter a valid email address.")
             emailLoginEditText.requestFocus()
             validationError = true
-        }
+        }*/
         if (password.length < 6) {
             passwordLoginEditText.setError("Your password must have at least 6 characters.")
             validationError = true

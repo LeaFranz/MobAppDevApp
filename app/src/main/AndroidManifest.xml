@@ -45,6 +45,11 @@
         </activity>
         <activity android:name=".MainActivity">
         </activity>
+        <activity android:name=".Exercise.Exercises">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Settings" />
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"

@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import at.mobappdev.flytta.Exercise.Exercises
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +20,11 @@ class MainActivity : AppCompatActivity() {
 
     fun goToSettings(view:View){
         val intent = Intent(this, Settings::class.java)
+        startActivity(intent)
+    }
+
+    fun goToExercises(view:View){
+        val intent = Intent(this, Exercises::class.java)
         startActivity(intent)
     }
 
