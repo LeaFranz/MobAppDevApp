@@ -10,7 +10,7 @@
         android:id="@+id/imageView3"
         android:layout_width="400dp"
         android:layout_height="279dp"
-        app:srcCompat="@drawable/initalExercise"
+        app:srcCompat="@drawable/initalexercise"
         tools:layout_editor_absoluteX="5dp"
         tools:layout_editor_absoluteY="141dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
