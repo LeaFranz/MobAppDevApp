@@ -7,6 +7,7 @@
     android:background="#629FEF"
     tools:context=".MainActivity">
 
+
     <Button
         android:id="@+id/stepCountButton"
         android:layout_width="152dp"
@@ -15,13 +16,14 @@
         android:layout_marginTop="25dp"
         android:layout_marginEnd="39dp"
         android:background="@drawable/main_button"
+        android:drawableTop="@drawable/counter"
         android:gravity="center|bottom"
         android:onClick="goToReminderList"
         android:paddingBottom="10dp"
         android:text="Plan your Week"
         app:layout_constraintBottom_toTopOf="@+id/exerciseButton"
         app:layout_constraintEnd_toStartOf="@+id/historyButton"
-        app:layout_constraintHorizontal_bias="0.833"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.588" />
@@ -34,6 +36,7 @@
         android:layout_marginEnd="39dp"
         android:layout_marginBottom="140dp"
         android:background="@drawable/main_button"
+        android:drawableTop="@drawable/exercise"
         android:gravity="center|bottom"
         android:onClick="goToExercises"
         android:paddingBottom="10dp"
@@ -51,6 +54,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="140dp"
         android:background="@drawable/main_button"
+        android:drawableTop="@drawable/settings"
         android:gravity="center|bottom"
         android:onClick="goToSettings"
         android:paddingBottom="10dp"
@@ -66,6 +70,7 @@
         android:layout_marginTop="25dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/main_button"
+        android:drawableTop="@drawable/history"
         android:gravity="center|bottom"
         android:onClick="goToStepCounter"
         android:paddingBottom="10dp"
