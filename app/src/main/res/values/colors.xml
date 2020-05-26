@@ -4,4 +4,14 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="lightgrey">#AFDBF3</color>
+
+    <color name="backgroundColor">#629fef</color>
+    <color name="accentPink">#ff6796</color>
+    <color name="accentLightPink">#ec7ce0</color>
+    <color name="accentBlue">#5060b6</color>
+    <color name="accentLightBlue">#7c96e0</color>
+    <color name="accentOrange">#f1ba92</color>
+    <color name="accentLightYellow">#eae07f</color>
+    <color name="accentTurquoise">#7ba5d7</color>
+    <color name="accentLightTurquoise">#a5e1c7</color>
 </resources>
