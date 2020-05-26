@@ -38,4 +38,6 @@ dependencies {
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'com.google.firebase:firebase-auth:19.3.0'
     implementation 'com.google.firebase:firebase-firestore-ktx:21.4.2'
+    implementation 'com.google.firebase:firebase-messaging:20.2.0'
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
