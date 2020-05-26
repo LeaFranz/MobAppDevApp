@@ -1,16 +1,17 @@
-package at.mobappdev.flytta
+package at.mobappdev.flytta.reminderlist
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import at.mobappdev.flytta.R
 import kotlinx.android.synthetic.main.item.view.*
 
 class ReminderListAdapter(private val list: List<ReminderListItem>, private var clickListener: OnItemClickListener) : RecyclerView.Adapter<ReminderListAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClicked(item:ReminderListItem, position:Int)
+        fun onItemClicked(item: ReminderListItem, position:Int)
     }
 
     // represents one line
@@ -23,7 +24,7 @@ class ReminderListAdapter(private val list: List<ReminderListItem>, private var 
         private val timeStart: TextView = itemView.timeStart
         private val timeEnd: TextView = itemView.timeEnd
 
-        fun initialize(item:ReminderListItem, listener:OnItemClickListener){
+        fun initialize(item: ReminderListItem, listener: OnItemClickListener){
             reminderName.text = item.reminderName
             interval.text = item.interval
             intervalType.text = item.intervalType
@@ -32,6 +33,7 @@ class ReminderListAdapter(private val list: List<ReminderListItem>, private var 
             timeStart.text = item.timeStart
             timeEnd.text = item.timeEnd
 
+            //listener for clicking on listitems
             itemView.setOnClickListener{
                 listener.onItemClicked(item, adapterPosition)
             }
@@ -40,9 +42,12 @@ class ReminderListAdapter(private val list: List<ReminderListItem>, private var 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // not called often
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item,
+        val itemView = LayoutInflater.from(parent.context).inflate(
+            R.layout.item,
             parent, false)
-        return ViewHolder(itemView)
+        return ViewHolder(
+            itemView
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

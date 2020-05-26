@@ -9,43 +9,51 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity  android:name=".login.RegisterActivity">
+        <activity android:name=".remindersettings.ReminderSettings" android:label="Reminder Settings">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".remindersettings.ReminderSettings" />
+        </activity>
+        <activity android:name=".login.RegisterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
-                <action android:name="at.mobappdev.flytta.login.RegisterActivity"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="at.mobappdev.flytta.login.RegisterActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity android:name=".login.LoginActivity">
             <intent-filter>
-                <action android:name="at.mobappdev.flytta.login.LoginActivity"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="at.mobappdev.flytta.login.LoginActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".login.RegisterActivity" />
         </activity>
-        <activity android:name=".Settings">
+        <activity android:name=".Settings" android:label="Settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".ReminderList">
+        <activity android:name=".reminderlist.ReminderList" android:label="Reminder List">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".StepCounter">
+        <activity android:name=".StepCounter" android:label="Stepcounter">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Settings" />
         </activity>
-        <activity android:name=".MainActivity">
-        </activity>
-        <activity android:name=".Exercise.Exercises">
+        <activity android:name=".MainActivity" />
+        <activity android:name=".Exercise.Exercises" android:label="Exercises">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Settings" />
