@@ -1,15 +1,47 @@
 package at.mobappdev.flytta.remindersettings
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.widget.Button
+import android.widget.CalendarView
 import at.mobappdev.flytta.R
 import io.opencensus.stats.Aggregation
 import java.sql.Time
+import java.util.*
 
 class ReminderSettings : AppCompatActivity() {
+
+    //companion object because functions don't have a lot to do with timer
+    companion object  {
+        fun setAlarm(context: Context, nowSeconds : Long, secondsRemaining:Long):Long{
+            val wakeUpTime = (nowSeconds+secondsRemaining) *1000 //because alarms use milliseconds
+            val alarmManger = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val intent = Intent(context, TimerReceiver::class.java) //broadcastreceiver - can subscribe to it - listen to event
+            val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
+            alarmManger.setExact(AlarmManager.RTC_WAKEUP, wakeUpTime, pendingIntent)
+            TimerUtil.setAlarmSetTime(nowSeconds, context)
+            return wakeUpTime
+        }
+
+        fun removeAlarm(context:Context){
+            val intent = Intent(context, TimerReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
+            val alarmManger = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmManger.cancel(pendingIntent)
+            TimerUtil.setAlarmSetTime(0, context) //means that the alarm is not set
+        }
+
+        val nowSeconds:Long
+            get() = Calendar.getInstance().timeInMillis/1000
+
+
+    }
 
     enum class TimerState {
         Stopped, Paused, Running
@@ -39,6 +71,7 @@ class ReminderSettings : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         initTimer()
+        removeAlarm(this)
     }
 
     //called on home button
@@ -46,7 +79,7 @@ class ReminderSettings : AppCompatActivity() {
         super.onPause()
         if (timerState == TimerState.Running) {
             timer.cancel()
-            //TODO: background timer
+            val wakeupTime = setAlarm(this, nowSeconds, secondsRemaining)
         } else if (timerState == TimerState.Paused) {
             //TODO: show notification
         }
@@ -74,10 +107,14 @@ class ReminderSettings : AppCompatActivity() {
             secondsRemaining = timerLengthSeconds
         }
 
-        //TODO: change secondsremaing according to where the background timer left of
+        val alarmSetTime = TimerUtil.getAlarmSetTime(this)
+        if(alarmSetTime > 0){
+            secondsRemaining -= nowSeconds - alarmSetTime
+        }
 
-        //resume where we left of
-        if (timerState == TimerState.Running) {
+        if(alarmSetTime <= 0){
+            onTimerFinished()
+        } else if(timerState == TimerState.Running){
             startTimer()
         }
 
