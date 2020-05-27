@@ -58,5 +58,18 @@ class TimerUtil {
             editor.putLong(SECONDS_REMAINING_ID, seconds)
             editor.apply()
         }
+
+        private const val ALARM_SET_TIME_ID = "backgrounded_time"
+
+        fun getAlarmSetTime(context : Context):Long{
+            val sharedPref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
+            return sharedPref.getLong(ALARM_SET_TIME_ID,0)
+        }
+
+        fun setAlarmSetTime(time:Long, context:Context){
+            val editor: SharedPreferences.Editor = context.getSharedPreferences(prefName, Context.MODE_PRIVATE).edit()
+            editor.putLong(ALARM_SET_TIME_ID, time)
+            editor.apply()
+        }
     }
 }
