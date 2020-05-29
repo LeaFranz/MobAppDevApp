@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import at.mobappdev.flytta.reminderlist.NotificationBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -18,6 +20,11 @@ class Settings : AppCompatActivity() {
 
         logOutButton.setOnClickListener {
             logOut()
+        }
+
+        val notifyButton = findViewById<Button>(R.id.notifyButton)
+        notifyButton.setOnClickListener {
+            NotificationBuilder.sendNotification(this, "Test Notification", "This is a test notification.")
         }
 
         getUsernameFromDB()

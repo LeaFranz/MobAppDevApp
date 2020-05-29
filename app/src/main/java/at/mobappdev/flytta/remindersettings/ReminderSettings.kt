@@ -13,6 +13,7 @@ import android.widget.CalendarView
 import android.widget.SeekBar
 import android.widget.TextView
 import at.mobappdev.flytta.R
+import at.mobappdev.flytta.reminderlist.NotificationBuilder
 import io.opencensus.stats.Aggregation
 import java.sql.Time
 import java.util.*
@@ -137,16 +138,17 @@ class ReminderSettings : AppCompatActivity() {
 
         //this is for changing while running i guess
         //TODO: check and maybe delete
-        if(alarmSetTime <= 0){
-            onTimerFinished()
-        } else if(timerState == TimerState.Running){
-            startTimer()
-        }
+//        if(alarmSetTime <= 0){
+//            onTimerFinished()
+//        } else if(timerState == TimerState.Running){
+//            startTimer()
+//        }
 
         updateCountdown()
     }
 
     private fun onTimerFinished() {
+        NotificationBuilder.sendNotification(this, "Get up and move!", "Tap here to get to your fun exercise :D")
         timerState = TimerState.Stopped
         setNewTimerLength()
 

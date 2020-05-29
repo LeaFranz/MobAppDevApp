@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 
 
-class TimerUtil(context: Context) {
+class TimerUtil() {
 
     //members in companion objects are something like static members in java
     companion object {
