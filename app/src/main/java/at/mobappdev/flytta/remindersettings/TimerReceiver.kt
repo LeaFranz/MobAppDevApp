@@ -9,7 +9,7 @@ class TimerReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         //TODO: show notification
 
-        TimerUtil.setTimerState(ReminderSettings.TimerState.Stopped, context)
-        TimerUtil.setAlarmSetTime(0, context)
+        TimerUtil.setTimerState(ReminderSettings.TimerState.Stopped)
+        TimerUtil.setAlarmSetTime(0)
     }
 }

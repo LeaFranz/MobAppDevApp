@@ -101,11 +101,11 @@ class RegisterActivity : AppCompatActivity() {
             emailRegisterEditText.setError("Please enter text for an email address.")
             validationError = true
         }
-        if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            emailRegisterEditText.setError("Please enter a valid email address.")
-            emailRegisterEditText.requestFocus()
-            validationError = true
-        }
+//        if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+//            emailRegisterEditText.setError("Please enter a valid email address.")
+//            emailRegisterEditText.requestFocus()
+//            validationError = true
+//        }
         if (password.length < 6) {
             passwordRegisterEditText.setError("Your password must have at least 6 characters.")
             validationError = true

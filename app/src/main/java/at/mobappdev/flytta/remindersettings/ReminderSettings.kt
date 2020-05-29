@@ -10,6 +10,8 @@ import android.os.CountDownTimer
 import android.util.Log
 import android.widget.Button
 import android.widget.CalendarView
+import android.widget.SeekBar
+import android.widget.TextView
 import at.mobappdev.flytta.R
 import io.opencensus.stats.Aggregation
 import java.sql.Time
@@ -25,7 +27,7 @@ class ReminderSettings : AppCompatActivity() {
             val intent = Intent(context, TimerReceiver::class.java) //broadcastreceiver - can subscribe to it - listen to event
             val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
             alarmManger.setExact(AlarmManager.RTC_WAKEUP, wakeUpTime, pendingIntent)
-            TimerUtil.setAlarmSetTime(nowSeconds, context)
+            TimerUtil.setAlarmSetTime(nowSeconds)
             return wakeUpTime
         }
 
@@ -34,47 +36,67 @@ class ReminderSettings : AppCompatActivity() {
             val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
             val alarmManger = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             alarmManger.cancel(pendingIntent)
-            TimerUtil.setAlarmSetTime(0, context) //means that the alarm is not set
+            TimerUtil.setAlarmSetTime(0) //means that the alarm is not set
         }
 
         val nowSeconds:Long
             get() = Calendar.getInstance().timeInMillis/1000
-
-
     }
 
     enum class TimerState {
         Stopped, Paused, Running
     }
 
-    lateinit var startButton: Button
+    private lateinit var startButton: Button
     private lateinit var timer: CountDownTimer
-    private var timerLengthSeconds = 0L
+    private var timerLengthSeconds = 30L
     private var timerState = TimerState.Stopped
-
-    //L means long
+    private lateinit var seekBar : SeekBar
+    lateinit var barText : TextView
     private var secondsRemaining = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reminder_settings)
+        TimerUtil.setContext(this)
+        TimerUtil.setSelectedLength(30) //default timer length
+
+        seekBar = findViewById(R.id.seekBar)
+        barText = findViewById(R.id.seekBarTextview)
+        seekBar.max = 300
+        seekBar.setOnSeekBarChangeListener(object:SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                barText.text = progress.toString()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                barText.text = "Selected "+seekBar?.progress.toString()
+                TimerUtil.setSelectedLength(seekBar?.progress!!.toInt()) //TODO: check if preferences are needed
+                secondsRemaining = seekBar.progress.toLong()*60
+                setNewTimerLength()
+                updateCountdown()
+            }
+        })
+
 
         startButton = findViewById(R.id.startTimerButton)
         startButton.setOnClickListener {
             startTimer()
             timerState = TimerState.Running
-            Log.i("countdown", "on start")
         }
     }
 
-    //from lifecycle
+    //instantly called when timer is opened
     override fun onResume() {
         super.onResume()
         initTimer()
         removeAlarm(this)
     }
 
-    //called on home button
+    //called on leaving
     override fun onPause() {
         super.onPause()
         if (timerState == TimerState.Running) {
@@ -84,34 +106,37 @@ class ReminderSettings : AppCompatActivity() {
             //TODO: show notification
         }
 
-        TimerUtil.setPreviousTimerLength(this, timerLengthSeconds)
-        TimerUtil.setSecondsRemaining(this, secondsRemaining)
-        TimerUtil.setTimerState(timerState, this)
+        TimerUtil.setPreviousTimerLength(timerLengthSeconds)
+        TimerUtil.setSecondsRemaining(secondsRemaining)
+        TimerUtil.setTimerState(timerState)
+
     }
 
     //called from on resume
     private fun initTimer() {
-        timerState = TimerUtil.getTimerState(this)
+        timerState = TimerUtil.getTimerState()
 
         if (timerState == TimerState.Stopped) {
             setNewTimerLength()
         } else {
-            //if paused bc app closed - continue
+            //if timer was closed - want to continue where we left of
             setPreviousTimerLength()
         }
 
         //was already running before
         if (timerState == TimerState.Running || timerState == TimerState.Paused) {
-            secondsRemaining = TimerUtil.getSecondsRemaining(this)
+            secondsRemaining = TimerUtil.getSecondsRemaining()
         } else {
-            secondsRemaining = timerLengthSeconds
+            secondsRemaining = TimerUtil.getAlarmSetTime()*60
         }
 
-        val alarmSetTime = TimerUtil.getAlarmSetTime(this)
+        val alarmSetTime = TimerUtil.getAlarmSetTime()
         if(alarmSetTime > 0){
             secondsRemaining -= nowSeconds - alarmSetTime
         }
 
+        //this is for changing while running i guess
+        //TODO: check and maybe delete
         if(alarmSetTime <= 0){
             onTimerFinished()
         } else if(timerState == TimerState.Running){
@@ -125,10 +150,9 @@ class ReminderSettings : AppCompatActivity() {
         timerState = TimerState.Stopped
         setNewTimerLength()
 
-        TimerUtil.setSecondsRemaining(this, timerLengthSeconds)
+        TimerUtil.setSecondsRemaining(timerLengthSeconds)
         secondsRemaining = timerLengthSeconds
         updateCountdown()
-        Log.i("countdown: ", "finished")
     }
 
     private fun startTimer() {
@@ -145,12 +169,12 @@ class ReminderSettings : AppCompatActivity() {
     }
 
     private fun setNewTimerLength() {
-        val lengthInMinutes = TimerUtil.getTimerLength(this)
+        val lengthInMinutes = TimerUtil.getSelectedLength()
         timerLengthSeconds = (lengthInMinutes * 60L)
     }
 
     private fun setPreviousTimerLength() {
-        timerLengthSeconds = TimerUtil.getPreviousTimerLength(this)
+        timerLengthSeconds = TimerUtil.getPreviousTimerLength()
     }
 
     private fun updateCountdown() {
