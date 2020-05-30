@@ -72,7 +72,7 @@
         android:background="@drawable/main_button"
         android:drawableTop="@drawable/history"
         android:gravity="center|bottom"
-        android:onClick="goToStepCounter"
+        android:onClick="goToHistory"
         android:paddingBottom="10dp"
         android:text="History"
         app:layout_constraintBottom_toTopOf="@+id/settingButton"

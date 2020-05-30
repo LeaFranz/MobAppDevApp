@@ -9,36 +9,45 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:padding="16dp"
-        android:background="#FFFFFF">
+        android:layout_height="match_parent"
+        android:background="@drawable/pb_drawable"
+        android:minHeight="200dp"
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="369dp"
-            android:layout_height="176dp"
+            android:layout_width="131dp"
+            android:layout_height="128dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="29dp"
             android:src="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/imageView"
             android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="201dp"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="10dp"
             android:text="SAMPLE TEXT"
-            android:textSize="30sp" />
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/tv_title"
-            android:layout_marginTop="20dp"
-            android:text="sample text " />
+            android:layout_alignLeft="@id/imageView"
+            android:layout_alignTop="@+id/tv_title"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="40dp"
+            android:text="SAMPLE TEXT"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

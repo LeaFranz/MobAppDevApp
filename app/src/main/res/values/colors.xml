@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="lightgrey">#AFDBF3</color>
 
+    <color name="white">#FFFFFF</color>
     <color name="backgroundColor">#629fef</color>
     <color name="accentPink">#ff6796</color>
     <color name="accentLightPink">#ec7ce0</color>

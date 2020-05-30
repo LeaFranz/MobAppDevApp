@@ -58,6 +58,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Settings" />
         </activity>
+        <activity android:name=".history.History" android:label="Exercises">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Settings" />
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"

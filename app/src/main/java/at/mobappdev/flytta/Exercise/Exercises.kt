@@ -1,52 +1,61 @@
 package at.mobappdev.flytta.Exercise
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import at.mobappdev.flytta.Exercise.Model.ExerciseInfo
 import at.mobappdev.flytta.Exercise.Model.ExerciseList
-import at.mobappdev.flytta.Exercise.Model.Exercise_Slide
 import at.mobappdev.flytta.R
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_exercises.*
-import kotlinx.android.synthetic.main.activity_reminder_list.*
+
 
 class Exercises : AppCompatActivity() {
 
     private lateinit var tvDescription: TextView
+    private lateinit var db:FirebaseFirestore
+    private lateinit var reference : DocumentReference
+
+    companion object {
+        private const val TAG = "KotlinActivity"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exercises)
-
-        var arrayList = addExercises()
-        val exerciseList = ExerciseList(arrayList, this)
-
-        recyclerViewExercises?.layoutManager = LinearLayoutManager(this)
-        recyclerViewExercises?.adapter = exerciseList
+        db = FirebaseFirestore.getInstance()
+        getAllDataFromCollection()
     }
-    private fun addExercises () : ArrayList<Exercise_Slide>{
-        var arrayList = ArrayList<Exercise_Slide>()
-        arrayList.add(Exercise_Slide("Shoulder shrugs",
-            "Gently lift your shoulders.\n" +
-                    "Let them slowly fall.\n" +
-                    "You should feel tension being released as your shoulders drop.\n",
-            R.drawable.exercise_01, 60))
 
-        arrayList.add(Exercise_Slide("Shoulders", "Move your head from right to left " +
-                "and from left to right. Do this for 30 seconds!", R.drawable.exercise_02))
-        arrayList.add(Exercise_Slide("Neck rotations", "Keep your head upright.\n" +
-                "Gently turn your head from side to side.\n" +
-                "As you turn your head, try to move it past your shoulder.\n", R.drawable.exercise_03))
-        arrayList.add(Exercise_Slide("Back", "", R.drawable.exercise_04))
-        arrayList.add(Exercise_Slide("Hand lifts", "this is description", R.drawable.exercise_05))
-        arrayList.add(Exercise_Slide("Head rotations", "this is description", R.drawable.exercise_06))
-        arrayList.add(Exercise_Slide("Leg stretch", "this is description", R.drawable.exercise_07))
-        arrayList.add(Exercise_Slide("Back stretch", "this is description", R.drawable.exercise_08))
-        arrayList.add(Exercise_Slide("Breathing", "this is description", R.drawable.exercise_09))
-        arrayList.add(Exercise_Slide("Shoulder stretch", "this is description", R.drawable.exercise_10))
-        arrayList.add(Exercise_Slide("Upper body and arm stretch", "this is description", R.drawable.exercise_11))
-        arrayList.add(Exercise_Slide("Unknown", "this is description", R.drawable.exercise_12))
-        arrayList.add(Exercise_Slide("Shoulder rotation", "this is description", R.drawable.exercise_13))
-        return arrayList
+    fun getAllDataFromCollection(){
+        var exerciseList : MutableList<ExerciseInfo> = ArrayList()
+        val db = Firebase.firestore
+        db.collection("exerciseData")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val currentDbObject = document.toObject(ExerciseInfo::class.java)
+                    if(currentDbObject != null){
+                        exerciseList.add(createExerciseInfoObject(currentDbObject))
+                    }
+                }
+                val exerciseList = ExerciseList(exerciseList, this)
+                recyclerViewExercises?.layoutManager = LinearLayoutManager(this)
+                recyclerViewExercises?.adapter = exerciseList
+            }
+            .addOnFailureListener { exception ->
+                Log.w("main activity", "Error getting documents: ", exception)
+                Toast.makeText(this, "Unable to load Data!", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    fun createExerciseInfoObject(currentDBObject:ExerciseInfo) : ExerciseInfo{
+        return ExerciseInfo(currentDBObject.exerciseId, currentDBObject.title, currentDBObject.description, currentDBObject.imagePath, currentDBObject.time)
     }
 }
