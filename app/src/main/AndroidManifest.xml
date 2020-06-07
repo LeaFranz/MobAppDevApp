@@ -58,8 +58,8 @@
                 android:value=".login.RegisterActivity" />
         </activity>
         <activity
-            android:name=".Settings"
-            android:label="Settings">
+            android:name=".Logout"
+            android:label="Log Out">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -76,7 +76,7 @@
             android:label="Stepcounter">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Settings" />
+                android:value=".Logout" />
         </activity>
         <activity android:name=".MainActivity" />
         <activity
@@ -84,7 +84,7 @@
             android:label="Exercises">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Settings" />
+                android:value=".Logout" />
         </activity>
         <activity android:name=".history.History" android:label="Exercises">
             <meta-data
