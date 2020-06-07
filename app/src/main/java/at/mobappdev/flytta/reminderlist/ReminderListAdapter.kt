@@ -95,7 +95,7 @@ class ReminderListAdapter(
         try {
             notifyDataSetChanged()
         } catch (ex: Exception) {
-            handler.post(Runnable { notifyDataSetChanged() })
+            handler.post { notifyDataSetChanged() }
         }
     }
 

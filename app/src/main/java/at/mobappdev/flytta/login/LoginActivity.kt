@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Patterns
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
@@ -46,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun logIn() {
-        progressBar = findViewById<ProgressBar>(R.id.progressBarLogin)
+        progressBar = findViewById(R.id.progressBarLogin)
         progressBar?.visibility = View.VISIBLE
         email = emailLoginEditText.text.toString()
         password = passwordLoginEditText.text.toString()
@@ -75,7 +74,7 @@ class LoginActivity : AppCompatActivity() {
         var validationError = false
 
         if (email.isEmpty()) {
-            emailLoginEditText.setError("Please enter text for an email address.")
+            emailLoginEditText.error = "Please enter text for an email address."
             validationError = true
         }
         /*if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
@@ -84,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
             validationError = true
         }*/
         if (password.length < 6) {
-            passwordLoginEditText.setError("Your password must have at least 6 characters.")
+            passwordLoginEditText.error = "Your password must have at least 6 characters."
             validationError = true
         }
 

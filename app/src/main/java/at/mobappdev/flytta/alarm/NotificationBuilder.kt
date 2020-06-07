@@ -9,7 +9,7 @@ import at.mobappdev.flytta.Exercise.Exercises
 import at.mobappdev.flytta.R
 import java.time.LocalDateTime
 
-class NotificationBuilder() {
+class NotificationBuilder {
 
     companion object {
         fun sendNotification(context: Context, title:String, text:String){
@@ -19,12 +19,10 @@ class NotificationBuilder() {
             }
             val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
 
-
-            val current = LocalDateTime.now()
             val builder = NotificationCompat.Builder(context, "1")
                 .setContentTitle(title)
                 .setSmallIcon(R.drawable.ic_run)
-                .setContentText(text+" "+current)
+                .setContentText(text)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_REMINDER)
                 .setContentIntent(pendingIntent)

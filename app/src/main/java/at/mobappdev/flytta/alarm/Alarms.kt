@@ -14,7 +14,7 @@ import kotlin.collections.ArrayList
 class Alarms {
     companion object {
         fun setDailyAlarm(context: Context, item: ReminderListItem) {
-            Log.i("Alarms", "Daily Alarm started: " + item)
+            Log.i("Alarms", "Daily Alarm started: $item")
             ReminderPrefs.setCurrentEndTime(item.timeEnd, context)
             val alarmManger = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val startHour = item.timeStart.split(":")[0].toInt()
@@ -76,9 +76,8 @@ class Alarms {
                 set(Calendar.HOUR_OF_DAY, startHour)
                 set(Calendar.MINUTE, startMinutes)
             }
-
-            if (currentTime > end && dayInList != null) {
-                Log.i("Alarms", "Interval Reminder startet")
+            if (currentTime < end && dayInList != null) {
+                Log.i("Alarms", "Interval Reminder started")
                 alarmManger.setRepeating(
                     AlarmManager.RTC_WAKEUP,
                     calendar.timeInMillis,

@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Parcelable
 import android.util.Log
-import at.mobappdev.flytta.alarm.Alarms
-import java.util.*
 
 class DailyAlarmReceiver : BroadcastReceiver() {
 

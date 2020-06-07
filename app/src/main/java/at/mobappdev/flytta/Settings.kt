@@ -30,10 +30,10 @@ class Settings : AppCompatActivity() {
         getUsernameFromDB()
     }
 
-    fun goToStepCounter(view: View){
-        val intent = Intent(this, StepCounter::class.java)
-        startActivity(intent)
-    }
+//    fun goToStepCounter(view: View){
+//        val intent = Intent(this, StepCounter::class.java)
+//        startActivity(intent)
+//    }
 
     private fun logOut(){
         FirebaseAuth.getInstance().signOut()
@@ -52,7 +52,7 @@ class Settings : AppCompatActivity() {
                     Log.d("main", "current user uid ${FirebaseAuth.getInstance().uid}")
                     val user = document.toObject(User::class.java)
                     if(FirebaseAuth.getInstance().uid == user.id){
-                        usernameTextView.text = user.username.toString()
+                        usernameTextView.text = user.username
                     }
                 }
             }

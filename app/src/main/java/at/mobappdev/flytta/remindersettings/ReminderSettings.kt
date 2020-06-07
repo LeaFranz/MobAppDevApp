@@ -46,14 +46,14 @@ class ReminderSettings : AppCompatActivity() {
 
         minutes.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                reminderMin.text = progress.toString() + " min"
+                reminderMin.text = getString(R.string.minutes, progress.toString())
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                reminderMin.text = seekBar?.progress.toString() + " min"
+                reminderMin.text = getString(R.string.minutes, seekBar?.progress.toString())
                 allSettingsDone()
             }
         })
@@ -66,7 +66,7 @@ class ReminderSettings : AppCompatActivity() {
             onTimePicked(reminderTo, "To: ")
         }
 
-        dayPicker.setDaySelectionChangedListener { selectedDays ->
+        dayPicker.setDaySelectionChangedListener {
             allSettingsDone()
         }
 
@@ -93,7 +93,7 @@ class ReminderSettings : AppCompatActivity() {
         if (userId != null) {
             db.collection("users").document(userId).collection("reminder")
                 .add(reminder)
-                .addOnSuccessListener { documentReference ->
+                .addOnSuccessListener {
                     Log.i("ReminderSettings", "Reminder added to DB")
                 }
                 .addOnFailureListener { e ->
@@ -113,7 +113,7 @@ class ReminderSettings : AppCompatActivity() {
     private fun onTimePicked(reminder: EditText, text: String) {
         val calendar = Calendar.getInstance()
         val timeSetListener =
-            TimePickerDialog.OnTimeSetListener { view: TimePicker?, hourOfDay: Int, minute: Int ->
+            TimePickerDialog.OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 calendar.set(Calendar.MINUTE, minute)
                 val time = SimpleDateFormat("HH:mm", Locale.GERMAN).format(calendar.time)
@@ -129,7 +129,7 @@ class ReminderSettings : AppCompatActivity() {
     }
 
     private fun areTimesValid(currentTime: String, currentText: String, reminder: EditText) {
-        reminder.setText(currentText + currentTime)
+        reminder.setText(getString(R.string.time, currentText,currentTime))
         if (currentText == "To: " && reminderFrom.text.toString() != "") {
             val start = reminderFrom.text.toString().split(" ")[1]
             if (start > currentTime) {

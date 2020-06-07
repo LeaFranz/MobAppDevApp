@@ -3,7 +3,7 @@ package at.mobappdev.flytta.remindersettings
 import android.content.Context
 import android.content.SharedPreferences
 
-class ReminderPrefs() {
+class ReminderPrefs {
 
     companion object {
         private const val PREF_NAME = "TimerPreferences"

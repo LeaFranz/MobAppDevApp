@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Flytta</string>
+    <string name="minutes">%1$s min</string>
+    <string name="time">%1$s%2$s</string>
 </resources>

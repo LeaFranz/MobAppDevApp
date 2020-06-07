@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import at.mobappdev.flytta.R
-import com.google.gson.annotations.SerializedName
-import kotlinx.android.synthetic.main.activity_exercises.view.*
 import kotlinx.android.synthetic.main.row.view.*
 
 class ExerciseList (var arrayList: ArrayList<Exercise_Slide>, val context :Context):

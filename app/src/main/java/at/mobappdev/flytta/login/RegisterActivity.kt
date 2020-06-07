@@ -5,10 +5,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.util.Patterns
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import at.mobappdev.flytta.MainActivity
@@ -21,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_register.*
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-    private lateinit var progressBar: ProgressBar
+    private var progressBar:ProgressBar? = null
     private lateinit var userName:String
     private lateinit var email:String
     private lateinit var password:String
@@ -62,7 +60,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun createAccount() {
-        progressBar = findViewById<ProgressBar>(R.id.progressBarRegister)
+        progressBar = findViewById(R.id.progressBarRegister)
         progressBar?.visibility = View.VISIBLE
 
         userName = usernameRegisterEditText.text.toString()
@@ -94,11 +92,11 @@ class RegisterActivity : AppCompatActivity() {
         var validationError = false
 
         if(userName.isEmpty()){
-            usernameRegisterEditText.setError("Please enter text for a username.")
+            usernameRegisterEditText.error = "Please enter text for a username."
             validationError = true
         }
         if (email.isEmpty()) {
-            emailRegisterEditText.setError("Please enter text for an email address.")
+            emailRegisterEditText.error = "Please enter text for an email address."
             validationError = true
         }
 //        if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
@@ -107,7 +105,7 @@ class RegisterActivity : AppCompatActivity() {
 //            validationError = true
 //        }
         if (password.length < 6) {
-            passwordRegisterEditText.setError("Your password must have at least 6 characters.")
+            passwordRegisterEditText.error = "Your password must have at least 6 characters."
             validationError = true
         }
 

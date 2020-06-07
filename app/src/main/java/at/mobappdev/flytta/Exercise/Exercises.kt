@@ -8,7 +8,6 @@ import at.mobappdev.flytta.Exercise.Model.ExerciseList
 import at.mobappdev.flytta.Exercise.Model.Exercise_Slide
 import at.mobappdev.flytta.R
 import kotlinx.android.synthetic.main.activity_exercises.*
-import kotlinx.android.synthetic.main.activity_reminder_list.*
 
 class Exercises : AppCompatActivity() {
 
