@@ -31,8 +31,8 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun goToSettings(view: View) {
-        val intent = Intent(this, Settings::class.java)
+    fun goToLogout(view: View) {
+        val intent = Intent(this, Logout::class.java)
         startActivity(intent)
     }
 
