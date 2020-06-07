@@ -18,7 +18,8 @@
         android:minHeight="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alreadyAccountTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/alreadyAccountTextView"
+        />
 
     <TextView
         android:id="@+id/registerHeader"

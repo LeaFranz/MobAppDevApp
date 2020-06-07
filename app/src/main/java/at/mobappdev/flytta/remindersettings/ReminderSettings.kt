@@ -1,189 +1,161 @@
 package at.mobappdev.flytta.remindersettings
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
+import android.app.TimePickerDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.util.Log
-import android.widget.Button
-import android.widget.CalendarView
-import android.widget.SeekBar
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import at.mobappdev.flytta.R
-import at.mobappdev.flytta.reminderlist.NotificationBuilder
-import io.opencensus.stats.Aggregation
-import java.sql.Time
+import at.mobappdev.flytta.reminderlist.ReminderList
+import ca.antonious.materialdaypicker.MaterialDayPicker
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import java.text.SimpleDateFormat
 import java.util.*
 
+
 class ReminderSettings : AppCompatActivity() {
-
-    //companion object because functions don't have a lot to do with timer
-    companion object  {
-        fun setAlarm(context: Context, nowSeconds : Long, secondsRemaining:Long):Long{
-            val wakeUpTime = (nowSeconds+secondsRemaining) *1000 //because alarms use milliseconds
-            val alarmManger = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val intent = Intent(context, TimerReceiver::class.java) //broadcastreceiver - can subscribe to it - listen to event
-            val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
-            alarmManger.setExact(AlarmManager.RTC_WAKEUP, wakeUpTime, pendingIntent)
-            TimerUtil.setAlarmSetTime(nowSeconds)
-            return wakeUpTime
-        }
-
-        fun removeAlarm(context:Context){
-            val intent = Intent(context, TimerReceiver::class.java)
-            val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
-            val alarmManger = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            alarmManger.cancel(pendingIntent)
-            TimerUtil.setAlarmSetTime(0) //means that the alarm is not set
-        }
-
-        val nowSeconds:Long
-            get() = Calendar.getInstance().timeInMillis/1000
-    }
-
-    enum class TimerState {
-        Stopped, Paused, Running
-    }
-
-    private lateinit var startButton: Button
-    private lateinit var timer: CountDownTimer
-    private var timerLengthSeconds = 30L
-    private var timerState = TimerState.Stopped
-    private lateinit var seekBar : SeekBar
-    lateinit var barText : TextView
-    private var secondsRemaining = 0L
+    private lateinit var reminderName: EditText
+    private lateinit var reminderFrom: EditText
+    private lateinit var reminderTo: EditText
+    private lateinit var reminderMin: TextView
+    private lateinit var dayPicker: MaterialDayPicker
+    private lateinit var minutes: SeekBar
+    private lateinit var saveButton: Button
+    private lateinit var auth: FirebaseAuth
+    private var timesValid = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reminder_settings)
-        TimerUtil.setContext(this)
-        TimerUtil.setSelectedLength(30) //default timer length
 
-        seekBar = findViewById(R.id.seekBar)
-        barText = findViewById(R.id.seekBarTextview)
-        seekBar.max = 300
-        seekBar.setOnSeekBarChangeListener(object:SeekBar.OnSeekBarChangeListener{
+        auth = FirebaseAuth.getInstance()
+        reminderName = findViewById(R.id.reminderName)
+        reminderFrom = findViewById(R.id.reminderFrom)
+        reminderTo = findViewById(R.id.reminderTo)
+        reminderMin = findViewById(R.id.intervalMin)
+        dayPicker = findViewById(R.id.dayPicker)
+        minutes = findViewById(R.id.seekBar)
+        saveButton = findViewById(R.id.saveButton)
+        minutes.max = 180
+        dayPicker.locale = Locale.UK
+
+        minutes.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                barText.text = progress.toString()
+                reminderMin.text = progress.toString() + " min"
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                barText.text = "Selected "+seekBar?.progress.toString()
-                TimerUtil.setSelectedLength(seekBar?.progress!!.toInt()) //TODO: check if preferences are needed
-                secondsRemaining = seekBar.progress.toLong()*60
-                setNewTimerLength()
-                updateCountdown()
+                reminderMin.text = seekBar?.progress.toString() + " min"
+                allSettingsDone()
             }
         })
 
+        reminderFrom.setOnClickListener {
+            onTimePicked(reminderFrom, "From: ")
+        }
 
-        startButton = findViewById(R.id.startTimerButton)
-        startButton.setOnClickListener {
-            startTimer()
-            timerState = TimerState.Running
+        reminderTo.setOnClickListener {
+            onTimePicked(reminderTo, "To: ")
+        }
+
+        dayPicker.setDaySelectionChangedListener { selectedDays ->
+            allSettingsDone()
+        }
+
+        reminderName.addTextChangedListener {
+            allSettingsDone()
+        }
+
+        saveButton.setOnClickListener {
+            saveReminderToDB()
         }
     }
 
-    //instantly called when timer is opened
-    override fun onResume() {
-        super.onResume()
-        initTimer()
-        removeAlarm(this)
-    }
+    private fun saveReminderToDB() {
+        val db = Firebase.firestore
+        val userId = auth.uid
+        val reminder = hashMapOf(
+            "name" to reminderName.text.toString(),
+            "from" to reminderFrom.text.toString().split(" ")[1],
+            "to" to reminderTo.text.toString().split(" ")[1],
+            "minutes" to minutes.progress.toString(),
+            "days" to dayPicker.selectedDays
+        )
 
-    //called on leaving
-    override fun onPause() {
-        super.onPause()
-        if (timerState == TimerState.Running) {
-            timer.cancel()
-            val wakeupTime = setAlarm(this, nowSeconds, secondsRemaining)
-        } else if (timerState == TimerState.Paused) {
-            //TODO: show notification
+        if (userId != null) {
+            db.collection("users").document(userId).collection("reminder")
+                .add(reminder)
+                .addOnSuccessListener { documentReference ->
+                    Log.i("ReminderSettings", "Reminder added to DB")
+                }
+                .addOnFailureListener { e ->
+                    Log.i("ReminderSettings", "Error adding reminder to DB", e)
+                }
         }
 
-        TimerUtil.setPreviousTimerLength(timerLengthSeconds)
-        TimerUtil.setSecondsRemaining(secondsRemaining)
-        TimerUtil.setTimerState(timerState)
-
+        val intent = Intent(this, ReminderList::class.java)
+        startActivity(intent)
     }
 
-    //called from on resume
-    private fun initTimer() {
-        timerState = TimerUtil.getTimerState()
-
-        if (timerState == TimerState.Stopped) {
-            setNewTimerLength()
-        } else {
-            //if timer was closed - want to continue where we left of
-            setPreviousTimerLength()
-        }
-
-        //was already running before
-        if (timerState == TimerState.Running || timerState == TimerState.Paused) {
-            secondsRemaining = TimerUtil.getSecondsRemaining()
-        } else {
-            secondsRemaining = TimerUtil.getAlarmSetTime()*60
-        }
-
-        val alarmSetTime = TimerUtil.getAlarmSetTime()
-        if(alarmSetTime > 0){
-            secondsRemaining -= nowSeconds - alarmSetTime
-        }
-
-        //this is for changing while running i guess
-        //TODO: check and maybe delete
-//        if(alarmSetTime <= 0){
-//            onTimerFinished()
-//        } else if(timerState == TimerState.Running){
-//            startTimer()
-//        }
-
-        updateCountdown()
+    private fun allSettingsDone() {
+        saveButton.isEnabled =
+            dayPicker.selectedDays.isNotEmpty() && reminderTo.text.isNotEmpty() && reminderFrom.text.isNotEmpty() && reminderName.text.isNotEmpty() && minutes.progress != 0 && timesValid
     }
 
-    private fun onTimerFinished() {
-        NotificationBuilder.sendNotification(this, "Get up and move!", "Tap here to get to your fun exercise :D")
-        timerState = TimerState.Stopped
-        setNewTimerLength()
-
-        TimerUtil.setSecondsRemaining(timerLengthSeconds)
-        secondsRemaining = timerLengthSeconds
-        updateCountdown()
-    }
-
-    private fun startTimer() {
-        timerState = TimerState.Running
-
-        timer = object : CountDownTimer(secondsRemaining * 1000, 1000) {
-            override fun onFinish() = onTimerFinished()
-
-            override fun onTick(millisUntilFinished: Long) {
-                secondsRemaining = millisUntilFinished / 1000
-                updateCountdown()
+    private fun onTimePicked(reminder: EditText, text: String) {
+        val calendar = Calendar.getInstance()
+        val timeSetListener =
+            TimePickerDialog.OnTimeSetListener { view: TimePicker?, hourOfDay: Int, minute: Int ->
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                calendar.set(Calendar.MINUTE, minute)
+                val time = SimpleDateFormat("HH:mm", Locale.GERMAN).format(calendar.time)
+                areTimesValid(time, text, reminder)
             }
-        }.start()
+        TimePickerDialog(
+            this,
+            timeSetListener,
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE),
+            true
+        ).show()
     }
 
-    private fun setNewTimerLength() {
-        val lengthInMinutes = TimerUtil.getSelectedLength()
-        timerLengthSeconds = (lengthInMinutes * 60L)
-    }
+    private fun areTimesValid(currentTime: String, currentText: String, reminder: EditText) {
+        reminder.setText(currentText + currentTime)
+        if (currentText == "To: " && reminderFrom.text.toString() != "") {
+            val start = reminderFrom.text.toString().split(" ")[1]
+            if (start > currentTime) {
+                reminder.setTextColor(Color.parseColor("#FF0000"))
+                timesValid = false
+                allSettingsDone()
+            }
 
-    private fun setPreviousTimerLength() {
-        timerLengthSeconds = TimerUtil.getPreviousTimerLength()
-    }
+        } else if (currentText == "From: " && reminderTo.text.toString() != "") {
+            val end = reminderTo.text.toString().split(" ")[1]
+            if (end < currentTime) {
+                reminder.setTextColor(Color.parseColor("#FF0000"))
+                timesValid = false
+                allSettingsDone()
+            }
+        }
 
-    private fun updateCountdown() {
-        val minutes = secondsRemaining/60
-        val secondsInMinute = secondsRemaining - minutes*60
-        val secondStr = secondsInMinute.toString()
-        Log.i("countdown: ", "time: "+minutes+" "+secondsInMinute+" "+secondStr)
+        if (reminderTo.text.toString() != "" && reminderFrom.text.toString() != "") {
+            val start = reminderFrom.text.toString().split(" ")[1]
+            val end = reminderTo.text.toString().split(" ")[1]
+            if (end > start) {
+                reminderTo.setTextColor(Color.parseColor("#000000"))
+                reminderFrom.setTextColor(Color.parseColor("#000000"))
+                timesValid = true
+                allSettingsDone()
+            }
+        }
     }
-
 }

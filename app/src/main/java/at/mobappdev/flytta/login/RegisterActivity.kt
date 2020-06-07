@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_register.*
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-    private var progressBar: ProgressBar? = null
+    private lateinit var progressBar: ProgressBar
     private lateinit var userName:String
     private lateinit var email:String
     private lateinit var password:String
@@ -122,13 +122,17 @@ class RegisterActivity : AppCompatActivity() {
             "email" to email
         )
 
-        db.collection("users")
-            .add(user)
-            .addOnSuccessListener { documentReference ->
-                Log.i("register activity", "user added to db")
-            }
-            .addOnFailureListener { e ->
-                Log.i("register activity", "error adding user", e)
-            }
+        val userId = auth.uid
+
+        if (userId != null) {
+            db.collection("users").document(userId)
+                .set(user)
+                .addOnSuccessListener { documentReference ->
+                    Log.i("register activity", "user added to db ")
+                }
+                .addOnFailureListener { e ->
+                    Log.i("register activity", "error adding user", e)
+                }
+        }
     }
 }

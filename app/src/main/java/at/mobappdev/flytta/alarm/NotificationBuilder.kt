@@ -1,4 +1,4 @@
-package at.mobappdev.flytta.reminderlist
+package at.mobappdev.flytta.alarm
 
 import android.app.PendingIntent
 import android.content.Context
@@ -7,6 +7,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import at.mobappdev.flytta.Exercise.Exercises
 import at.mobappdev.flytta.R
+import java.time.LocalDateTime
 
 class NotificationBuilder() {
 
@@ -19,10 +20,11 @@ class NotificationBuilder() {
             val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
 
 
+            val current = LocalDateTime.now()
             val builder = NotificationCompat.Builder(context, "1")
                 .setContentTitle(title)
                 .setSmallIcon(R.drawable.ic_run)
-                .setContentText(text)
+                .setContentText(text+" "+current)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_REMINDER)
                 .setContentIntent(pendingIntent)

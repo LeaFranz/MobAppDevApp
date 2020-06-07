@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".reminderlist.ReminderList">
+
+    <ProgressBar
+        android:id="@+id/listProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:visibility="visible"
+        android:indeterminate="true"
+        android:minWidth="50dp"
+        android:minHeight="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+         />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -32,15 +45,5 @@
         android:fontFamily="sans-serif-light"
         android:text="+"
         android:textSize="45sp" />
-
-    <!--    <Button-->
-<!--        android:id="@+id/button_remove"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="remove"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_marginStart="250dp"-->
-<!--        android:layout_marginBottom="25dp"/>-->
 
 </RelativeLayout>

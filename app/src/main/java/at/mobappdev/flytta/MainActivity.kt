@@ -25,33 +25,28 @@ class MainActivity : AppCompatActivity() {
         createNotificationChannel()
     }
 
-    fun goToHistory(view: View){
+    fun goToHistory(view: View) {
         val intent = Intent(this, History::class.java)
         startActivity(intent)
     }
 
-    fun goToSettings(view:View){
+    fun goToSettings(view: View) {
         val intent = Intent(this, Settings::class.java)
         startActivity(intent)
     }
 
-    fun goToExercises(view:View){
+    fun goToExercises(view: View) {
         val intent = Intent(this, Exercises::class.java)
         startActivity(intent)
     }
 
-    fun goToReminderList(view: View){
+    fun goToReminderList(view: View) {
         val intent = Intent(this, ReminderList::class.java)
         startActivity(intent)
     }
 
-    override fun onBackPressed() {
-        moveTaskToBack(true)
-    }
-
-    private fun createNotificationChannel(){
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
+    //creates notification channel for api26+
+    private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = channelName
             val descriptionText = channelDescription
@@ -62,11 +57,11 @@ class MainActivity : AppCompatActivity() {
             channel.enableLights(true)
             channel.lightColor = Color.BLUE
             channel.enableVibration(true)
+
             // Register the channel with the system
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
-
     }
 }
