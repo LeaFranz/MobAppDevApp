@@ -18,7 +18,8 @@
         android:minHeight="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alreadyAccountTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/alreadyAccountTextView"
+        />
 
     <TextView
         android:id="@+id/registerHeader"
@@ -49,7 +50,8 @@
         android:ems="10"
         android:hint="Username"
         android:inputType="textPersonName"
-        android:paddingLeft="15dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
         app:layout_constraintEnd_toEndOf="@+id/registerHeader"
         app:layout_constraintStart_toStartOf="@+id/registerHeader"
         app:layout_constraintTop_toBottomOf="@+id/registerHeader" />
@@ -62,7 +64,8 @@
         android:background="@drawable/rounded_edittext_register"
         android:ems="10"
         android:hint="Email"
-        android:paddingLeft="15dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="@+id/usernameRegisterEditText"
         app:layout_constraintStart_toStartOf="@+id/usernameRegisterEditText"
@@ -102,6 +105,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="Already have an account?"
+        android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/registerButton"

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import at.mobappdev.flytta.alarm.NotificationBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -20,13 +22,18 @@ class Settings : AppCompatActivity() {
             logOut()
         }
 
+        val notifyButton = findViewById<Button>(R.id.notifyButton)
+        notifyButton.setOnClickListener {
+            NotificationBuilder.sendNotification(this, "Test Notification", "This is a test notification.")
+        }
+
         getUsernameFromDB()
     }
 
-    fun goToStepCounter(view: View){
-        val intent = Intent(this, StepCounter::class.java)
-        startActivity(intent)
-    }
+//    fun goToStepCounter(view: View){
+//        val intent = Intent(this, StepCounter::class.java)
+//        startActivity(intent)
+//    }
 
     private fun logOut(){
         FirebaseAuth.getInstance().signOut()
@@ -45,7 +52,7 @@ class Settings : AppCompatActivity() {
                     Log.d("main", "current user uid ${FirebaseAuth.getInstance().uid}")
                     val user = document.toObject(User::class.java)
                     if(FirebaseAuth.getInstance().uid == user.id){
-                        usernameTextView.text = user.username.toString()
+                        usernameTextView.text = user.username
                     }
                 }
             }

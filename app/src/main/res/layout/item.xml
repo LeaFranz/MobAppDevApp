@@ -25,7 +25,7 @@
             android:layout_below="@id/reminderName"
             android:layout_alignParentStart="true"
             android:layout_marginTop="0dp"
-            android:text="every"
+            android:text="Every"
             android:textColor="@android:color/black"
             android:textSize="15sp"
             android:layout_marginEnd="7dp"/>
@@ -39,7 +39,7 @@
             android:text="30"
             android:textColor="@android:color/black"
             android:textSize="15sp"
-            android:layout_marginEnd="7dp"/>
+            android:layout_marginEnd="3dp"/>
 
         <TextView
             android:id="@+id/intervalType"
@@ -47,12 +47,53 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/interval"
             android:layout_toEndOf="@id/interval"
-            android:text="min"
+            android:text="min from "
             android:textColor="@android:color/black"
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/dayStart"
+            android:id="@+id/timeStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/everyText"
+            android:layout_toEndOf="@id/intervalType"
+            android:text="10.00"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:layout_marginEnd="5dp"/>
+
+        <TextView
+            android:id="@+id/toText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/everyText"
+            android:layout_toEndOf="@id/timeStart"
+            android:text="to"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:layout_marginEnd="5dp"/>
+
+        <TextView
+            android:id="@+id/timeEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/timeStart"
+            android:layout_toEndOf="@id/toText"
+            android:text="17.00"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+
+        <Switch
+            android:id="@+id/remSwitch"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/interval"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="186dp"
+            android:layout_toEndOf="@id/intervalType" />
+
+        <TextView
+            android:id="@+id/days"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/everyText"
@@ -62,38 +103,6 @@
             android:textColor="@android:color/black"
             android:textSize="15sp"
             android:layout_marginEnd="7dp"/>
-
-        <TextView
-            android:id="@+id/dayEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/dayStart"
-            android:layout_toEndOf="@id/dayStart"
-            android:text="FR"
-            android:textColor="@android:color/black"
-            android:textSize="15sp"
-            android:layout_marginEnd="12dp"/>
-
-        <TextView
-            android:id="@+id/timeStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/dayEnd"
-            android:layout_toEndOf="@id/dayEnd"
-            android:text="10.00"
-            android:textColor="@android:color/black"
-            android:textSize="15sp"
-            android:layout_marginEnd="7dp"/>
-
-        <TextView
-            android:id="@+id/timeEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/timeStart"
-            android:layout_toEndOf="@id/timeStart"
-            android:text="17.00"
-            android:textColor="@android:color/black"
-            android:textSize="15sp" />
 
 
     </RelativeLayout>

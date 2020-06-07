@@ -1,3 +1,3 @@
 package at.mobappdev.flytta.reminderlist
 
-data class ReminderListItem(val reminderName:String, val interval:String, val intervalType:String, val dayStart:String, val dayEnd:String, val timeStart:String, val timeEnd:String)
+data class ReminderListItem(val reminderID:String, val reminderName:String="", val interval:String="", val days:ArrayList<*>, val timeStart:String="", val timeEnd:String="")
