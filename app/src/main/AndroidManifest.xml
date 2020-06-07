@@ -80,7 +80,7 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity
-            android:name="$Exercise.Exercises"
+            android:name=".Exercise.Exercises"
             android:label="Exercises">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
