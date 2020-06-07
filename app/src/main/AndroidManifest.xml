@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="at.mobappdev.flytta">
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <application
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:fullBackupContent="@xml/backup_descriptor">
-        <activity android:name=".remindersettings.ReminderSettings" android:label="Reminder Settings">
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".remindersettings.ReminderSettings"
+            android:label="Reminder Settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".reminderlist.ReminderList" />
@@ -26,14 +30,19 @@
             android:enabled="true"
             android:exported="false" />
 
-        <receiver android:name=".alarm.BootReceiver"
-            android:enabled="true" android:exported="true" android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+        <receiver
+            android:name=".alarm.BootReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-                <category android:name="android.intent.category.DEFAULT"/>
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
+
         <activity android:name=".login.RegisterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,10 +51,10 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="at.mobappdev.flytta.login.RegisterActivity" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="at.mobappdev.flytta.login.LoginActivity" />
@@ -57,6 +66,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".login.RegisterActivity" />
         </activity>
+
         <activity
             android:name=".Logout"
             android:label="Log Out">
@@ -64,6 +74,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
         <activity
             android:name=".reminderlist.ReminderList"
             android:label="Reminder List">
@@ -71,25 +82,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity
-            android:name=".StepCounter"
-            android:label="Stepcounter">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Logout" />
-        </activity>
         <activity android:name=".MainActivity" />
         <activity
             android:name=".Exercise.Exercises"
             android:label="Exercises">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Logout" />
+                android:value=".MainActivity" />
         </activity>
-        <activity android:name=".history.History" android:label="Exercises">
+        <activity
+            android:name=".history.History"
+            android:label="History">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Settings" />
+                android:value=".MainActivity" />
         </activity>
 
         <meta-data
