@@ -55,6 +55,6 @@ class Exercises : AppCompatActivity() {
     }
 
     fun createExerciseInfoObject(currentDBObject:ExerciseInfo) : ExerciseInfo{
-        return ExerciseInfo(currentDBObject.exerciseId, currentDBObject.title, currentDBObject.description, currentDBObject.imagePath, currentDBObject.time)
+        return ExerciseInfo(currentDBObject.exerciseId, currentDBObject.title, currentDBObject.description, currentDBObject.imagePath, currentDBObject.time, currentDBObject.groupId)
     }
 }

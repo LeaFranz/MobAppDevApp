@@ -30,6 +30,7 @@ class History : AppCompatActivity() {
 
     var xVal : Float = 0.45f
     var exerciseUserDataWeekly : MutableList<ExerciseUserData> = ArrayList()
+    lateinit var currentDayOfWeek : String
     var yValueGroupTemp : ArrayList<BarEntry> = ArrayList()
     var mon : MutableList<ExerciseUserData> = ArrayList()
     var tue : MutableList<ExerciseUserData> = ArrayList()
@@ -72,7 +73,25 @@ class History : AppCompatActivity() {
         previousFri = today.with(TemporalAdjusters.previous(DayOfWeek.FRIDAY))
         previousSat = today.with(TemporalAdjusters.previous(DayOfWeek.SATURDAY))
         previousSun = today.with(TemporalAdjusters.previous(DayOfWeek.SUNDAY))
-        
+        getTodaysWeekDay(today)
+    }
+    private fun getTodaysWeekDay(today : LocalDate){
+        var currentDayOfWeek = today.dayOfWeek.toString()
+        if(currentDayOfWeek=="MONDAY"){
+            previousMon = today
+        }else if(currentDayOfWeek=="TUESDAY"){
+            previousTue  = today
+        }else if(currentDayOfWeek=="WEDNESDAY"){
+            previousWed = today
+        }else if(currentDayOfWeek=="THURSDAY"){
+            previousThu = today
+        }else if(currentDayOfWeek == "FRIDAY"){
+            previousFri = today
+        }else if(currentDayOfWeek == "SATURDAY"){
+            previousSat = today
+        }else if(currentDayOfWeek == "SUNDAY"){
+            previousSun = today
+        }
     }
 
     fun getAllExerciseData(){
@@ -92,6 +111,7 @@ class History : AppCompatActivity() {
                 Log.w("Database:", "Error getting documents: ", exception)
             }
     }
+
     private fun sortdata(){
         for(exercise in exerciseUserDataWeekly){
             if(exercise.exerciseTimestamp == this.previousMon.toString()){
@@ -100,13 +120,13 @@ class History : AppCompatActivity() {
                 tue.add(exercise)
             }else if(exercise.exerciseTimestamp == this.previousWed.toString()){
                 wed.add(exercise)
-            }else if(exercise.exerciseTimestamp == this.previousWed.toString()){
+            }else if(exercise.exerciseTimestamp == this.previousThu.toString()){
                 thu.add(exercise)
-            }else if(exercise.exerciseTimestamp == this.previousWed.toString()){
+            }else if(exercise.exerciseTimestamp == this.previousFri.toString()){
                 fri.add(exercise)
-            }else if(exercise.exerciseTimestamp == this.previousWed.toString()){
+            }else if(exercise.exerciseTimestamp == this.previousSat.toString()){
                 sat.add(exercise)
-            }else if(exercise.exerciseTimestamp == this.previousWed.toString()){
+            }else if(exercise.exerciseTimestamp == this.previousSun.toString()){
                 sun.add(exercise)
             }
         }
@@ -210,17 +230,17 @@ class History : AppCompatActivity() {
 
         var legenedEntries = arrayListOf<LegendEntry>()
 
-        legenedEntries.add(LegendEntry("Exercise1", Legend.LegendForm.CIRCLE, 8f, 8f, null, -29696))
-        legenedEntries.add(LegendEntry("Exercise2", Legend.LegendForm.CIRCLE, 8f, 8f, null, -39017))
-        legenedEntries.add(LegendEntry("Exercise3", Legend.LegendForm.CIRCLE, 8f, 8f, null, -8612127))
-        legenedEntries.add(LegendEntry("Exercise4", Legend.LegendForm.CIRCLE, 8f, 8f, null, -5905976))
+        legenedEntries.add(LegendEntry("Shoulder", Legend.LegendForm.CIRCLE, 8f, 8f, null, -29696))
+        legenedEntries.add(LegendEntry("Legs", Legend.LegendForm.CIRCLE, 8f, 8f, null, -39017))
+        legenedEntries.add(LegendEntry("Hands", Legend.LegendForm.CIRCLE, 8f, 8f, null, -8612127))
+        legenedEntries.add(LegendEntry("Others", Legend.LegendForm.CIRCLE, 8f, 8f, null, -5905976))
 
         legend.setCustom(legenedEntries)
 
-        legend.setYOffset(2f)
-        legend.setXOffset(6f)
-        legend.setYEntrySpace(0f)
-        legend.setTextSize(10f)
+        legend.setYOffset(10f)
+        legend.setXOffset(15f)
+        legend.setYEntrySpace(2f)
+        legend.setTextSize(15f)
 
         val xAxis = barChartView.getXAxis()
         xAxis.setGranularity(1f)
