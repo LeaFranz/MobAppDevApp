@@ -21,40 +21,23 @@
         app:layout_constraintTop_toBottomOf="@+id/alreadyAccountTextView"
         />
 
-    <TextView
-        android:id="@+id/registerHeader"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:fontFamily="@font/allerta_stencil"
-        android:text="Flytta Logo?"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="50sp"
-        app:layout_constraintBottom_toTopOf="@+id/usernameRegisterEditText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
     <EditText
         android:id="@+id/usernameRegisterEditText"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/rounded_edittext_register"
         android:ems="10"
         android:hint="Username"
         android:inputType="textPersonName"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
-        app:layout_constraintEnd_toEndOf="@+id/registerHeader"
-        app:layout_constraintStart_toStartOf="@+id/registerHeader"
-        app:layout_constraintTop_toBottomOf="@+id/registerHeader" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <EditText
         android:id="@+id/emailRegisterEditText"
@@ -111,5 +94,17 @@
         app:layout_constraintEnd_toEndOf="@+id/registerButton"
         app:layout_constraintStart_toStartOf="@+id/registerButton"
         app:layout_constraintTop_toBottomOf="@+id/registerButton" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="293dp"
+        android:layout_height="108dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

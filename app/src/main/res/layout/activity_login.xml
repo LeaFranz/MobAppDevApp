@@ -20,39 +20,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backToRegistrationTextView" />
 
-    <TextView
-        android:id="@+id/loginHeader"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:fontFamily="@font/allerta_stencil"
-        android:text="Flytta Logo?"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="50sp"
-        app:layout_constraintBottom_toTopOf="@+id/emailLoginEditText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <EditText
         android:id="@+id/emailLoginEditText"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/rounded_edittext_register"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
-        app:layout_constraintEnd_toEndOf="@+id/loginHeader"
-        app:layout_constraintStart_toStartOf="@+id/loginHeader"
-        app:layout_constraintTop_toBottomOf="@+id/loginHeader" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <EditText
         android:id="@+id/passwordLoginEditText"
@@ -94,5 +77,17 @@
         app:layout_constraintEnd_toEndOf="@+id/loginButton"
         app:layout_constraintStart_toStartOf="@+id/loginButton"
         app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="295dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
