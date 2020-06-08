@@ -96,7 +96,6 @@ class History : AppCompatActivity() {
 
     fun getAllExerciseData(){
         val db = Firebase.firestore
-        var counter : Int = 0
         db.collection("userExerciseData")
             .whereEqualTo("userId", FirebaseAuth.getInstance().uid)
             .get()
@@ -195,7 +194,6 @@ class History : AppCompatActivity() {
         xAxisValues.add("Sun")
 
         var yValueGroup1 = ArrayList<BarEntry>()
-        var yValueGroup2 = ArrayList<BarEntry>()
 
         // draw the graph
         var barDataSet1: BarDataSet

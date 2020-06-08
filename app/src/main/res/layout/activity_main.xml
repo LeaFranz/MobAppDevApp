@@ -10,74 +10,62 @@
 
     <Button
         android:id="@+id/stepCountButton"
-        android:layout_width="152dp"
-        android:layout_height="181dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="39dp"
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/main_button"
         android:drawableTop="@drawable/counter"
         android:gravity="center|bottom"
         android:onClick="goToReminderList"
         android:paddingBottom="10dp"
         android:text="Plan your Week"
-        app:layout_constraintBottom_toTopOf="@+id/exerciseButton"
-        app:layout_constraintEnd_toStartOf="@+id/historyButton"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.588" />
+        tools:layout_editor_absoluteX="16dp" />
 
     <Button
         android:id="@+id/exerciseButton"
-        android:layout_width="152dp"
-        android:layout_height="181dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="39dp"
-        android:layout_marginBottom="140dp"
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/main_button"
-        android:drawableTop="@drawable/initalexercise"
+        android:drawableTop="@drawable/exercise"
         android:gravity="center|bottom"
         android:onClick="goToExercises"
         android:paddingBottom="10dp"
         android:text="Exercises"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/settingButton"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stepCountButton" />
 
     <Button
         android:id="@+id/settingButton"
-        android:layout_width="152dp"
-        android:layout_height="181dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="140dp"
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/main_button"
         android:drawableTop="@drawable/settings"
         android:gravity="center|bottom"
         android:onClick="goToLogout"
         android:paddingBottom="10dp"
         android:text="Log out"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/historyButton" />
 
     <Button
         android:id="@+id/historyButton"
-        android:layout_width="152dp"
-        android:layout_height="181dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/main_button"
         android:drawableTop="@drawable/history"
         android:gravity="center|bottom"
         android:onClick="goToHistory"
         android:paddingBottom="10dp"
         android:text="History"
-        app:layout_constraintBottom_toTopOf="@+id/settingButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exerciseButton" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

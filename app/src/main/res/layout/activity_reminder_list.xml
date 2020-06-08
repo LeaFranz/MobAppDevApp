@@ -44,6 +44,7 @@
         android:background="@drawable/rounded_button"
         android:fontFamily="sans-serif-light"
         android:text="+"
-        android:textSize="45sp" />
+        android:textSize="45sp"
+        android:backgroundTint="@color/accentLightBlue"/>
 
 </RelativeLayout>

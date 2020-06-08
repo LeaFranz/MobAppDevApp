@@ -40,9 +40,8 @@ class Exercises : AppCompatActivity() {
             .addOnSuccessListener { result ->
                 for (document in result) {
                     val currentDbObject = document.toObject(ExerciseInfo::class.java)
-                    if(currentDbObject != null){
-                        exerciseList.add(createExerciseInfoObject(currentDbObject))
-                    }
+                    exerciseList.add(createExerciseInfoObject(currentDbObject))
+
                 }
                 val exerciseListFinal = ExerciseList(exerciseList, this)
                 recyclerViewExercises?.layoutManager = LinearLayoutManager(this)

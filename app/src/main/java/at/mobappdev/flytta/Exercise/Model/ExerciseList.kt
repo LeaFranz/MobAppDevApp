@@ -2,17 +2,19 @@ package at.mobappdev.flytta.Exercise.Model
 
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.media.MediaPlayer
 import android.net.Uri
-import android.os.Build
-import android.os.CountDownTimer
-import android.os.Handler
+import android.os.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.view.menu.MenuView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import at.mobappdev.flytta.R
 import at.mobappdev.flytta.history.ExerciseUserData
@@ -28,23 +30,38 @@ import kotlinx.android.synthetic.main.row.view.*
 import java.io.File
 import java.time.LocalDate
 import java.time.ZoneId
+import androidx.core.content.ContextCompat.getSystemService as getSystemService
 
 class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Context): RecyclerView.Adapter<ExerciseList.ViewHolder>() {
 
-    private var progressBar: ProgressBar? = null
-    private var i = 0
-    private var txtView: TextView? = null
-    private val handler = Handler()
+    lateinit var view : ViewHolder
+    lateinit var mListener : OnItemClicklistener
+
+    interface OnItemClicklistener{
+        fun onItemClick(position: Int)
+    }
+
+    fun setOnClickListener(listener : OnItemClicklistener){
+        mListener = listener
+    }
 
     //sets Values in every row from Exercises
     class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        private var storageFb : FirebaseStorage = Firebase.storage
 
         fun binItems(model:ExerciseInfo){
             val storageReference = Firebase.storage.reference.child("Exercises/${model.imagePath}.png")
             itemView.tv_title.text = model.title
             itemView.tv_description.text = model.description
-
+            itemView.text_view.text = model.time.toString()
+            if(model.groupId == 1){
+                itemView.groupId.text = "Shoulder"
+            }else if(model.groupId == 2){
+                itemView.groupId.text = "Legs"
+            }else if(model.groupId == 3){
+                itemView.groupId.text = "Hands"
+            }else if(model.groupId == 4){
+                itemView.groupId.text = "Others"
+            }
             storageReference.downloadUrl.addOnSuccessListener{Uri->
                 val imageUrl = Uri.toString()
                 Glide.with(itemView)
@@ -55,11 +72,31 @@ class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Conte
                     .fallback(R.drawable.initalexercise)
                     .into(itemView.imageView)
             }
+            itemView.setOnClickListener(View.OnClickListener {
+              itemView.text_view.text = "hello"
+            })
+        }
+        fun startTimer(time : Int, item : View){
+            var counter : Long = time.toLong()
+            var displayTime : Int = time
+            val timer = object: CountDownTimer(counter*1000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    displayTime--
+                    item.text_view.text = displayTime.toString()
+                }
+                override fun onFinish() {
+                    item.text_view.text = time.toString()
+                }
+            }
+            timer.start()
         }
     }
     //needed for RecyclerView
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.row, parent, false)
+
+
+
         return ViewHolder(v)
     }
     override fun getItemCount(): Int {
@@ -67,10 +104,12 @@ class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Conte
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binItems(arrayList[position])
+
         holder.itemView.setOnClickListener{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 if (position == 0) {
                     saveExercise(arrayList.get(0).groupId)
+                    Toast.makeText(context , "Saved Exercise successfully!", Toast.LENGTH_LONG)
                 } else if (position == 1) {
                     saveExercise(arrayList.get(1).groupId)
                 } else if (position == 2) {
@@ -105,9 +144,11 @@ class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Conte
     }
 
 
+
     //write to DB when exercise is started - needed for History
     @RequiresApi(Build.VERSION_CODES.O)
     private fun saveExercise(exerciseGroupId : Int) {
+        vibrateFound()
         var zoneId: ZoneId = ZoneId.of("Europe/Paris")
         var today = LocalDate.now(zoneId)
         var currentUser = FirebaseAuth.getInstance().uid
@@ -119,11 +160,20 @@ class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Conte
             db.collection("userExerciseData")
                 .document()
                 .set(exerciseUserData)
-                .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
+                .addOnSuccessListener {
+                    Log.d(TAG, "DocumentSnapshot successfully written!") }
                 .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
         }
     }
 
+    fun vibrateFound(){
+        val vibe = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= 26) {
+            vibe.vibrate(VibrationEffect.createOneShot(250, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            Toast.makeText(context, "Cannot use Vibration", Toast.LENGTH_SHORT).show()
+        }
+    }
 
 
 }
