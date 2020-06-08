@@ -4,11 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Logout">
+    tools:context=".Logout"
+    android:background="@color/backgroundColor">
 
     <TextView
         android:id="@+id/greetingTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="Hi"
@@ -22,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:textColor="@color/white"
         android:text="Do you really want to log out?"
         android:textAlignment="center"
         android:textSize="36sp"
@@ -33,11 +37,12 @@
 
     <Button
         android:id="@+id/logOutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
         android:layout_marginTop="100dp"
-        android:layout_marginBottom="141dp"
+        android:background="@color/white"
         android:text="log out"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoutTextView" />

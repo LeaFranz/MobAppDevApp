@@ -21,14 +21,6 @@ class Logout : AppCompatActivity() {
         logOutButton.setOnClickListener {
             logOut()
         }
-
-        notifyButton.setOnClickListener {
-            NotificationBuilder.sendNotification(
-                this,
-                "Test Notification",
-                "This is a test notification :)"
-            )
-        }
     }
 
     private fun logOut() {
