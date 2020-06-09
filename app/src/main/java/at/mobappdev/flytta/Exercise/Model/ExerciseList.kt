@@ -35,15 +35,6 @@ import androidx.core.content.ContextCompat.getSystemService as getSystemService
 class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Context): RecyclerView.Adapter<ExerciseList.ViewHolder>() {
 
     lateinit var view : ViewHolder
-    lateinit var mListener : OnItemClicklistener
-
-    interface OnItemClicklistener{
-        fun onItemClick(position: Int)
-    }
-
-    fun setOnClickListener(listener : OnItemClicklistener){
-        mListener = listener
-    }
 
     //sets Values in every row from Exercises
     class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
@@ -52,7 +43,7 @@ class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Conte
             val storageReference = Firebase.storage.reference.child("Exercises/${model.imagePath}.png")
             itemView.tv_title.text = model.title
             itemView.tv_description.text = model.description
-            itemView.text_view.text = model.time.toString()
+            itemView.text_view.text = model.time.toString() + " sec"
             if(model.groupId == 1){
                 itemView.groupId.text = "Shoulder"
             }else if(model.groupId == 2){
@@ -72,9 +63,6 @@ class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Conte
                     .fallback(R.drawable.initalexercise)
                     .into(itemView.imageView)
             }
-            itemView.setOnClickListener(View.OnClickListener {
-              itemView.text_view.text = "hello"
-            })
         }
         fun startTimer(time : Int, item : View){
             var counter : Long = time.toLong()

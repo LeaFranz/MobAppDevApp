@@ -4,45 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Logout"
-    android:background="@color/backgroundColor">
+    android:background="@color/backgroundColor"
+    tools:context=".Logout">
 
     <TextView
         android:id="@+id/greetingTextView"
         android:layout_width="match_parent"
-        android:textAlignment="center"
-        android:textColor="@color/white"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="Hi"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <TextView
         android:id="@+id/logoutTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:textColor="@color/white"
-        android:text="Do you really want to log out?"
-        android:textAlignment="center"
-        android:textSize="36sp"
+        android:layout_marginTop="74dp"
         android:paddingStart="30dp"
         android:paddingEnd="30dp"
-        app:layout_constraintEnd_toEndOf="@+id/greetingTextView"
-        app:layout_constraintStart_toStartOf="@+id/greetingTextView"
+        android:text="Do you really want to log out?"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/greetingTextView" />
 
     <Button
         android:id="@+id/logOutButton"
         android:layout_width="match_parent"
-        android:layout_height="100sp"
-        android:layout_marginTop="100dp"
-        android:background="@color/white"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="92dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/rounded_button_register"
         android:text="log out"
-        android:textSize="24sp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoutTextView" />
