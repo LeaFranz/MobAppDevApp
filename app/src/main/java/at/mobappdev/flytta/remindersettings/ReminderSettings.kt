@@ -46,6 +46,11 @@ class ReminderSettings : AppCompatActivity() {
 
         minutes.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if(progress == 0){
+                    reminderMin.setTextColor(Color.parseColor("#FF0000"))
+                } else {
+                    reminderMin.setTextColor(Color.parseColor("#000000"))
+                }
                 reminderMin.text = getString(R.string.minutes, progress.toString())
             }
 
