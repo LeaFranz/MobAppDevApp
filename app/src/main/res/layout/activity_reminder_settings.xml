@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="15dp"
-    tools:context=".remindersettings.ReminderSettings"
->
+    tools:context=".remindersettings.ReminderSettings">
 
     <EditText
         android:id="@+id/reminderName"
@@ -17,7 +17,8 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="Reminder Name"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:theme="@style/FlyttaTheme"/>
 
     <EditText
         android:id="@+id/reminderFrom"
@@ -30,7 +31,8 @@
         android:ems="10"
         android:hint="From:"
         android:inputType="none"
-        android:focusable="false"/>
+        android:focusable="false"
+        android:theme="@style/FlyttaTheme"/>
 
     <EditText
         android:id="@+id/reminderTo"
@@ -43,7 +45,8 @@
         android:ems="10"
         android:hint="To:"
         android:inputType="none"
-        android:focusable="false"/>
+        android:focusable="false"
+        android:theme="@style/FlyttaTheme"/>
 
     <TextView
         android:id="@+id/intervalText"
@@ -76,6 +79,7 @@
         android:layout_below="@+id/intervalMin"
         android:layout_marginTop="0dp"
         android:progress="30"
+        android:theme="@style/FlyttaTheme"
         />
 
     <ca.antonious.materialdaypicker.MaterialDayPicker
@@ -87,14 +91,18 @@
 
     <Button
         android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="92dp"
         android:layout_centerHorizontal="true"
-        android:text="Save"
-        android:layout_marginTop="60dp"
-        android:layout_below="@+id/dayPicker"
         android:enabled="false"
-        />
+        android:layout_below="@+id/dayPicker"
+        android:background="@drawable/rounded_button_register"
+        android:text="save"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="@color/lightgrey" />
 
 
 </RelativeLayout>

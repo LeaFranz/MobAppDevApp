@@ -17,6 +17,7 @@
         android:minHeight="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:theme="@style/FlyttaTheme"
          />
 
 
@@ -37,14 +38,14 @@
         android:layout_height="70dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
         android:layout_marginStart="167dp"
         android:layout_marginBottom="23dp"
         android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/accentLightBlue"
         android:fontFamily="sans-serif-light"
         android:text="+"
-        android:textSize="45sp"
-        android:backgroundTint="@color/accentLightBlue"/>
+        android:textColor="#FFFFFF"
+        android:textSize="45sp" />
 
 </RelativeLayout>

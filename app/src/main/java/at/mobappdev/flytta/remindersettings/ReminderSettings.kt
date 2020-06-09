@@ -108,6 +108,11 @@ class ReminderSettings : AppCompatActivity() {
     private fun allSettingsDone() {
         saveButton.isEnabled =
             dayPicker.selectedDays.isNotEmpty() && reminderTo.text.isNotEmpty() && reminderFrom.text.isNotEmpty() && reminderName.text.isNotEmpty() && minutes.progress != 0 && timesValid
+        if(saveButton.isEnabled){
+            saveButton.backgroundTintList = this.resources.getColorStateList(R.color.accentLightBlue)
+        } else {
+            saveButton.backgroundTintList = this.resources.getColorStateList(R.color.lightgrey)
+        }
     }
 
     private fun onTimePicked(reminder: EditText, text: String) {

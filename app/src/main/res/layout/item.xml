@@ -90,7 +90,9 @@
             android:layout_alignBaseline="@id/interval"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="186dp"
-            android:layout_toEndOf="@id/intervalType" />
+            android:layout_toEndOf="@id/intervalType"
+            android:theme="@style/FlyttaTheme"
+            />
 
         <TextView
             android:id="@+id/days"
