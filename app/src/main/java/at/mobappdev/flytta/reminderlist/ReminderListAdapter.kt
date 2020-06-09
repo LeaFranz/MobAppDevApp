@@ -32,9 +32,23 @@ class ReminderListAdapter(
             rowIndex = -1
             Alarms.removeDailyAlarm(viewHolder.itemView.context)
             Alarms.removeIntervalAlarm(viewHolder.itemView.context)
+        } else if(isActiveSwitchAfterIndex(index)) {
+            rowIndex -= 1
         }
+
         list.removeAt(index)
         notifyChange()
+    }
+
+    private fun isActiveSwitchAfterIndex(currentIndex:Int):Boolean{
+        for((index, value) in list.withIndex()){
+            if(ReminderPrefs.getSwitchActive(list[index].reminderID, viewHolder.itemView.context)){
+                if(currentIndex < index){
+                    return true
+                }
+            }
+        }
+        return false
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -53,7 +67,7 @@ class ReminderListAdapter(
 
         holder.initialize(list[position], clickListener)
 
-        if (rowIndex == -1) {
+        if (rowIndex == -1) { //nothing active
             switch.isChecked =
                 ReminderPrefs.getSwitchActive(list[position].reminderID, holder.itemView.context)
             if (switch.isChecked) {
@@ -159,8 +173,9 @@ class ReminderListAdapter(
                     .addOnSuccessListener {
                         Log.d(
                             "reminderlistadapter",
-                            "Reminder successfully deleted."
+                            "Reminder successfully deleted. "
                         )
+                        deleteItem(adapterPosition)
                     }
                     .addOnFailureListener { e ->
                         Log.w(
@@ -168,9 +183,9 @@ class ReminderListAdapter(
                             "Error deleting reminder ",
                             e
                         )
+                        deleteItem(adapterPosition)
                     }
             }
-            deleteItem(adapterPosition)
             return true
         }
     }

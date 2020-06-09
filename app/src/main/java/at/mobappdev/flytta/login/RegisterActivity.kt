@@ -125,7 +125,7 @@ class RegisterActivity : AppCompatActivity() {
         if (userId != null) {
             db.collection("users").document(userId)
                 .set(user)
-                .addOnSuccessListener { documentReference ->
+                .addOnSuccessListener {
                     Log.i("Register Activity", "User added to DB")
                 }
                 .addOnFailureListener { e ->

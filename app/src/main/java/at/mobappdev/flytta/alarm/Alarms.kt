@@ -88,6 +88,7 @@ class Alarms {
         }
 
         fun removeDailyAlarm(context: Context) {
+            Log.i("Alarms", "Daily Reminder removed")
             val intent = Intent(context, DailyAlarmReceiver::class.java)
             val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
             val alarmManger = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -95,6 +96,7 @@ class Alarms {
         }
 
         fun removeIntervalAlarm(context: Context) {
+            Log.i("Alarms", "Interval Reminder removed")
             val intent = Intent(context, IntervalAlarmReceiver::class.java)
             val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
             val alarmManger = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
