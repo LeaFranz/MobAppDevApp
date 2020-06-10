@@ -30,6 +30,7 @@ import kotlinx.android.synthetic.main.row.view.*
 import java.io.File
 import java.time.LocalDate
 import java.time.ZoneId
+import java.util.*
 import androidx.core.content.ContextCompat.getSystemService as getSystemService
 
 class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Context): RecyclerView.Adapter<ExerciseList.ViewHolder>() {
@@ -43,7 +44,7 @@ class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Conte
             val storageReference = Firebase.storage.reference.child("Exercises/${model.imagePath}.png")
             itemView.tv_title.text = model.title
             itemView.tv_description.text = model.description
-            itemView.text_view.text = model.time.toString() + " sec"
+            itemView.text_view.text = model.time.toString()
             if(model.groupId == 1){
                 itemView.groupId.text = "Shoulder"
             }else if(model.groupId == 2){
@@ -64,27 +65,10 @@ class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Conte
                     .into(itemView.imageView)
             }
         }
-        fun startTimer(time : Int, item : View){
-            var counter : Long = time.toLong()
-            var displayTime : Int = time
-            val timer = object: CountDownTimer(counter*1000, 1000) {
-                override fun onTick(millisUntilFinished: Long) {
-                    displayTime--
-                    item.text_view.text = displayTime.toString()
-                }
-                override fun onFinish() {
-                    item.text_view.text = time.toString()
-                }
-            }
-            timer.start()
-        }
     }
     //needed for RecyclerView
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.row, parent, false)
-
-
-
         return ViewHolder(v)
     }
     override fun getItemCount(): Int {
@@ -95,12 +79,34 @@ class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Conte
 
         holder.itemView.setOnClickListener{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                saveExercise(arrayList.get(position).groupId)
-                Toast.makeText(context , "Saved Exercise successfully!", Toast.LENGTH_LONG).show()
+                if(holder != null){
+                    timer(holder.itemView.text_view, position)
+                }
             }
         }
     }
 
+    private fun timer(text_view:TextView, exerciseId: Int){
+        vibrateFound()
+        var time : Int = text_view.text.toString().toInt()
+        var timeValue : Long = time.toLong()*1000L
+        var initialValue : Int = time
+        if(time != null){
+            val timer = object: CountDownTimer(timeValue, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    text_view.text = time.toString()
+                    time--
+                }
+
+                override fun onFinish() {
+                    text_view.text = initialValue.toString()
+                    saveExercise(exerciseId)
+                    vibrateFound()
+                }
+            }
+            timer.start()
+        }
+    }
 
 
     //write to DB when exercise is started - needed for History
@@ -113,12 +119,12 @@ class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Conte
         if(currentUser!=null){
             var exerciseUserData : ExerciseUserData = ExerciseUserData(exerciseGroupId, today.toString(), currentUser)
             Log.d("main", "current user uid ${FirebaseAuth.getInstance().uid}")
-
             var db = FirebaseFirestore.getInstance()
             db.collection("userExerciseData")
                 .document()
                 .set(exerciseUserData)
                 .addOnSuccessListener {
+                    Toast.makeText(context , "Saved Exercise successfully!", Toast.LENGTH_LONG).show()
                     Log.d(TAG, "DocumentSnapshot successfully written!") }
                 .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
         }
