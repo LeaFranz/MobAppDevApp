@@ -95,38 +95,8 @@ class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Conte
 
         holder.itemView.setOnClickListener{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if (position == 0) {
-                    saveExercise(arrayList.get(0).groupId)
-                    Toast.makeText(context , "Saved Exercise successfully!", Toast.LENGTH_LONG)
-                } else if (position == 1) {
-                    saveExercise(arrayList.get(1).groupId)
-                } else if (position == 2) {
-                    saveExercise(arrayList.get(2).groupId)
-                } else if (position == 3) {
-                    saveExercise(arrayList.get(3).groupId)
-                } else if (position == 4) {
-                    saveExercise(arrayList.get(4).groupId)
-                }else if (position == 5) {
-                    saveExercise(arrayList.get(5).groupId)
-                }else if (position == 6) {
-                    saveExercise(arrayList.get(6).groupId)
-                }else if (position == 7) {
-                    saveExercise(arrayList.get(7).groupId)
-                }else if (position == 8) {
-                    saveExercise(arrayList.get(8).groupId)
-                }else if (position == 9) {
-                    saveExercise(arrayList.get(9).groupId)
-                }else if (position == 10) {
-                    saveExercise(arrayList.get(10).groupId)
-                }else if (position == 11) {
-                    saveExercise(arrayList.get(11).groupId)
-                }else if (position == 12) {
-                    saveExercise(arrayList.get(12).groupId)
-                }else if (position == 13) {
-                    saveExercise(arrayList.get(13).groupId)
-                }else if (position == 14) {
-                    saveExercise(arrayList.get(14).groupId)
-                }
+                saveExercise(arrayList.get(position).groupId)
+                Toast.makeText(context , "Saved Exercise successfully!", Toast.LENGTH_LONG).show()
             }
         }
     }
