@@ -41,7 +41,7 @@ class ReminderListAdapter(
     }
 
     private fun isActiveSwitchAfterIndex(currentIndex:Int):Boolean{
-        for((index, value) in list.withIndex()){
+        for((index, _) in list.withIndex()){
             if(ReminderPrefs.getSwitchActive(list[index].reminderID, viewHolder.itemView.context)){
                 if(currentIndex < index){
                     return true

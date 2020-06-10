@@ -3,4 +3,5 @@
     <string name="minutes">%1$s min</string>
     <string name="time">%1$s%2$s</string>
     <string name="greeting">Hi %1$s!</string>
+    <string name="seconds">%1$s sec</string>
 </resources>

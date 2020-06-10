@@ -7,13 +7,11 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import at.mobappdev.flytta.Exercise.Exercises
 import at.mobappdev.flytta.R
-import java.time.LocalDateTime
 
 class NotificationBuilder {
 
     companion object {
         fun sendNotification(context: Context, title:String, text:String){
-            //TODO: change intent class
             val intent = Intent(context, Exercises::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }

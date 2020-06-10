@@ -1,9 +1,7 @@
 package at.mobappdev.flytta.Exercise
 
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,9 +18,6 @@ import kotlinx.android.synthetic.main.activity_exercises.*
 class Exercises : AppCompatActivity() {
 
     private lateinit var db:FirebaseFirestore
-    companion object {
-        private const val TAG = "KotlinActivity"
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +27,8 @@ class Exercises : AppCompatActivity() {
         getAllDataFromCollection()
     }
 
-    fun getAllDataFromCollection(){
-        var exerciseList : MutableList<ExerciseInfo> = ArrayList()
+    private fun getAllDataFromCollection(){
+        val exerciseList : MutableList<ExerciseInfo> = ArrayList()
         val db = Firebase.firestore
         db.collection("exerciseData")
             .get()
@@ -53,7 +48,7 @@ class Exercises : AppCompatActivity() {
             }
     }
 
-    fun createExerciseInfoObject(currentDBObject:ExerciseInfo) : ExerciseInfo{
+    private fun createExerciseInfoObject(currentDBObject:ExerciseInfo) : ExerciseInfo{
         return ExerciseInfo(currentDBObject.exerciseId, currentDBObject.title, currentDBObject.description, currentDBObject.imagePath, currentDBObject.time, currentDBObject.groupId)
     }
 }
