@@ -5,6 +5,4 @@ data class ExerciseInfo(var exerciseId : Int = 0,
                         var description : String ="",
                         var imagePath : String ="",
                         var time : Int = 30,
-                        var groupId : Int = 0) {
-
-}
+                        var groupId : Int = 0)

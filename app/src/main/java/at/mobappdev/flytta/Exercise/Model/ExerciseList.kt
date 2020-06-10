@@ -2,39 +2,27 @@ package at.mobappdev.flytta.Exercise.Model
 
 import android.content.ContentValues.TAG
 import android.content.Context
-import android.media.MediaPlayer
-import android.net.Uri
 import android.os.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.view.menu.MenuView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import at.mobappdev.flytta.R
 import at.mobappdev.flytta.history.ExerciseUserData
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
-
 import kotlinx.android.synthetic.main.row.view.*
-import java.io.File
 import java.time.LocalDate
 import java.time.ZoneId
-import androidx.core.content.ContextCompat.getSystemService as getSystemService
 
-class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Context): RecyclerView.Adapter<ExerciseList.ViewHolder>() {
+class ExerciseList (private var arrayList: MutableList<ExerciseInfo>, val context :Context): RecyclerView.Adapter<ExerciseList.ViewHolder>() {
 
-    lateinit var view : ViewHolder
 
     //sets Values in every row from Exercises
     class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
@@ -44,14 +32,19 @@ class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Conte
             itemView.tv_title.text = model.title
             itemView.tv_description.text = model.description
             itemView.text_view.text = model.time.toString() + " sec"
-            if(model.groupId == 1){
-                itemView.groupId.text = "Shoulder"
-            }else if(model.groupId == 2){
-                itemView.groupId.text = "Legs"
-            }else if(model.groupId == 3){
-                itemView.groupId.text = "Hands"
-            }else if(model.groupId == 4){
-                itemView.groupId.text = "Others"
+            when (model.groupId) {
+                1 -> {
+                    itemView.groupId.text = "Shoulder"
+                }
+                2 -> {
+                    itemView.groupId.text = "Legs"
+                }
+                3 -> {
+                    itemView.groupId.text = "Hands"
+                }
+                4 -> {
+                    itemView.groupId.text = "Others"
+                }
             }
             storageReference.downloadUrl.addOnSuccessListener{Uri->
                 val imageUrl = Uri.toString()
@@ -64,8 +57,9 @@ class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Conte
                     .into(itemView.imageView)
             }
         }
+
         fun startTimer(time : Int, item : View){
-            var counter : Long = time.toLong()
+            val counter : Long = time.toLong()
             var displayTime : Int = time
             val timer = object: CountDownTimer(counter*1000, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
@@ -95,37 +89,53 @@ class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Conte
 
         holder.itemView.setOnClickListener{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if (position == 0) {
-                    saveExercise(arrayList.get(0).groupId)
-                    Toast.makeText(context , "Saved Exercise successfully!", Toast.LENGTH_LONG)
-                } else if (position == 1) {
-                    saveExercise(arrayList.get(1).groupId)
-                } else if (position == 2) {
-                    saveExercise(arrayList.get(2).groupId)
-                } else if (position == 3) {
-                    saveExercise(arrayList.get(3).groupId)
-                } else if (position == 4) {
-                    saveExercise(arrayList.get(4).groupId)
-                }else if (position == 5) {
-                    saveExercise(arrayList.get(5).groupId)
-                }else if (position == 6) {
-                    saveExercise(arrayList.get(6).groupId)
-                }else if (position == 7) {
-                    saveExercise(arrayList.get(7).groupId)
-                }else if (position == 8) {
-                    saveExercise(arrayList.get(8).groupId)
-                }else if (position == 9) {
-                    saveExercise(arrayList.get(9).groupId)
-                }else if (position == 10) {
-                    saveExercise(arrayList.get(10).groupId)
-                }else if (position == 11) {
-                    saveExercise(arrayList.get(11).groupId)
-                }else if (position == 12) {
-                    saveExercise(arrayList.get(12).groupId)
-                }else if (position == 13) {
-                    saveExercise(arrayList.get(13).groupId)
-                }else if (position == 14) {
-                    saveExercise(arrayList.get(14).groupId)
+                when (position) {
+                    0 -> {
+                        saveExercise(arrayList[0].groupId)
+                        Toast.makeText(context , "Saved Exercise successfully!", Toast.LENGTH_LONG).show()
+                    }
+                    1 -> {
+                        saveExercise(arrayList[1].groupId)
+                    }
+                    2 -> {
+                        saveExercise(arrayList[2].groupId)
+                    }
+                    3 -> {
+                        saveExercise(arrayList[3].groupId)
+                    }
+                    4 -> {
+                        saveExercise(arrayList[4].groupId)
+                    }
+                    5 -> {
+                        saveExercise(arrayList[5].groupId)
+                    }
+                    6 -> {
+                        saveExercise(arrayList[6].groupId)
+                    }
+                    7 -> {
+                        saveExercise(arrayList[7].groupId)
+                    }
+                    8 -> {
+                        saveExercise(arrayList[8].groupId)
+                    }
+                    9 -> {
+                        saveExercise(arrayList[8].groupId)
+                    }
+                    10 -> {
+                        saveExercise(arrayList[10].groupId)
+                    }
+                    11 -> {
+                        saveExercise(arrayList[11].groupId)
+                    }
+                    12 -> {
+                        saveExercise(arrayList[12].groupId)
+                    }
+                    13 -> {
+                        saveExercise(arrayList[13].groupId)
+                    }
+                    14 -> {
+                        saveExercise(arrayList[14].groupId)
+                    }
                 }
             }
         }
@@ -137,14 +147,14 @@ class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Conte
     @RequiresApi(Build.VERSION_CODES.O)
     private fun saveExercise(exerciseGroupId : Int) {
         vibrateFound()
-        var zoneId: ZoneId = ZoneId.of("Europe/Paris")
-        var today = LocalDate.now(zoneId)
-        var currentUser = FirebaseAuth.getInstance().uid
+        val zoneId: ZoneId = ZoneId.of("Europe/Paris")
+        val today = LocalDate.now(zoneId)
+        val currentUser = FirebaseAuth.getInstance().uid
         if(currentUser!=null){
-            var exerciseUserData : ExerciseUserData = ExerciseUserData(exerciseGroupId, today.toString(), currentUser)
+            val exerciseUserData  = ExerciseUserData(exerciseGroupId, today.toString(), currentUser)
             Log.d("main", "current user uid ${FirebaseAuth.getInstance().uid}")
 
-            var db = FirebaseFirestore.getInstance()
+            val db = FirebaseFirestore.getInstance()
             db.collection("userExerciseData")
                 .document()
                 .set(exerciseUserData)
@@ -154,7 +164,7 @@ class ExerciseList (var arrayList: MutableList<ExerciseInfo>, val context :Conte
         }
     }
 
-    fun vibrateFound(){
+    private fun vibrateFound(){
         val vibe = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         if (Build.VERSION.SDK_INT >= 26) {
             vibe.vibrate(VibrationEffect.createOneShot(250, VibrationEffect.DEFAULT_AMPLITUDE))

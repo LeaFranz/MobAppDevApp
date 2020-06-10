@@ -28,28 +28,27 @@ import kotlin.collections.ArrayList
 
 class History : AppCompatActivity() {
 
-    var xVal : Float = 0.45f
-    var exerciseUserDataWeekly : MutableList<ExerciseUserData> = ArrayList()
-    lateinit var currentDayOfWeek : String
-    var yValueGroupTemp : ArrayList<BarEntry> = ArrayList()
-    var mon : MutableList<ExerciseUserData> = ArrayList()
-    var tue : MutableList<ExerciseUserData> = ArrayList()
-    var wed : MutableList<ExerciseUserData> = ArrayList()
-    var thu : MutableList<ExerciseUserData> = ArrayList()
-    var fri : MutableList<ExerciseUserData> = ArrayList()
-    var sat : MutableList<ExerciseUserData> = ArrayList()
-    var sun : MutableList<ExerciseUserData> = ArrayList()
-    lateinit var previousMon : LocalDate
-    lateinit var previousTue : LocalDate
-    lateinit var previousWed : LocalDate
-    lateinit var previousThu : LocalDate
-    lateinit var previousFri : LocalDate
-    lateinit var previousSat : LocalDate
-    lateinit var previousSun : LocalDate
-    var ex1:Int = 0
-    var ex2:Int = 0
-    var ex3:Int = 0
-    var ex4:Int = 0
+    private var xVal : Float = 0.45f
+    private var exerciseUserDataWeekly : MutableList<ExerciseUserData> = ArrayList()
+    private var yValueGroupTemp : ArrayList<BarEntry> = ArrayList()
+    private var mon : MutableList<ExerciseUserData> = ArrayList()
+    private var tue : MutableList<ExerciseUserData> = ArrayList()
+    private var wed : MutableList<ExerciseUserData> = ArrayList()
+    private var thu : MutableList<ExerciseUserData> = ArrayList()
+    private var fri : MutableList<ExerciseUserData> = ArrayList()
+    private var sat : MutableList<ExerciseUserData> = ArrayList()
+    private var sun : MutableList<ExerciseUserData> = ArrayList()
+    private lateinit var previousMon : LocalDate
+    private lateinit var previousTue : LocalDate
+    private lateinit var previousWed : LocalDate
+    private lateinit var previousThu : LocalDate
+    private lateinit var previousFri : LocalDate
+    private lateinit var previousSat : LocalDate
+    private lateinit var previousSun : LocalDate
+    private var ex1:Int = 0
+    private var ex2:Int = 0
+    private var ex3:Int = 0
+    private var ex4:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,15 +56,15 @@ class History : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             dateMon()
         }else{
-            Toast.makeText(this, "Can not open History Data!", Toast.LENGTH_SHORT)
+            Toast.makeText(this, "Can not open History Data!", Toast.LENGTH_SHORT).show()
         }
         getAllExerciseData()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun dateMon(){
-        var zoneId : ZoneId = ZoneId.of("Europe/Paris")
-        var today = LocalDate.now(zoneId)
+        val zoneId : ZoneId = ZoneId.of("Europe/Paris")
+        val today = LocalDate.now(zoneId)
         previousMon  = today.with(TemporalAdjusters.previous(DayOfWeek.MONDAY))
         previousTue = today.with(TemporalAdjusters.previous(DayOfWeek.TUESDAY))
         previousWed = today.with(TemporalAdjusters.previous(DayOfWeek.WEDNESDAY))
@@ -76,25 +75,32 @@ class History : AppCompatActivity() {
         getTodaysWeekDay(today)
     }
     private fun getTodaysWeekDay(today : LocalDate){
-        var currentDayOfWeek = today.dayOfWeek.toString()
-        if(currentDayOfWeek=="MONDAY"){
-            previousMon = today
-        }else if(currentDayOfWeek=="TUESDAY"){
-            previousTue  = today
-        }else if(currentDayOfWeek=="WEDNESDAY"){
-            previousWed = today
-        }else if(currentDayOfWeek=="THURSDAY"){
-            previousThu = today
-        }else if(currentDayOfWeek == "FRIDAY"){
-            previousFri = today
-        }else if(currentDayOfWeek == "SATURDAY"){
-            previousSat = today
-        }else if(currentDayOfWeek == "SUNDAY"){
-            previousSun = today
+        when (today.dayOfWeek.toString()) {
+            "MONDAY" -> {
+                previousMon = today
+            }
+            "TUESDAY" -> {
+                previousTue  = today
+            }
+            "WEDNESDAY" -> {
+                previousWed = today
+            }
+            "THURSDAY" -> {
+                previousThu = today
+            }
+            "FRIDAY" -> {
+                previousFri = today
+            }
+            "SATURDAY" -> {
+                previousSat = today
+            }
+            "SUNDAY" -> {
+                previousSun = today
+            }
         }
     }
 
-    fun getAllExerciseData(){
+    private fun getAllExerciseData(){
         val db = Firebase.firestore
         db.collection("userExerciseData")
             .whereEqualTo("userId", FirebaseAuth.getInstance().uid)
@@ -113,20 +119,28 @@ class History : AppCompatActivity() {
 
     private fun sortdata(){
         for(exercise in exerciseUserDataWeekly){
-            if(exercise.exerciseTimestamp == this.previousMon.toString()){
-                mon.add(exercise)
-            }else if(exercise.exerciseTimestamp == this.previousTue.toString()){
-                tue.add(exercise)
-            }else if(exercise.exerciseTimestamp == this.previousWed.toString()){
-                wed.add(exercise)
-            }else if(exercise.exerciseTimestamp == this.previousThu.toString()){
-                thu.add(exercise)
-            }else if(exercise.exerciseTimestamp == this.previousFri.toString()){
-                fri.add(exercise)
-            }else if(exercise.exerciseTimestamp == this.previousSat.toString()){
-                sat.add(exercise)
-            }else if(exercise.exerciseTimestamp == this.previousSun.toString()){
-                sun.add(exercise)
+            when (exercise.exerciseTimestamp) {
+                this.previousMon.toString() -> {
+                    mon.add(exercise)
+                }
+                this.previousTue.toString() -> {
+                    tue.add(exercise)
+                }
+                this.previousWed.toString() -> {
+                    wed.add(exercise)
+                }
+                this.previousThu.toString() -> {
+                    thu.add(exercise)
+                }
+                this.previousFri.toString() -> {
+                    fri.add(exercise)
+                }
+                this.previousSat.toString() -> {
+                    sat.add(exercise)
+                }
+                this.previousSun.toString() -> {
+                    sun.add(exercise)
+                }
             }
         }
         gatherData()
@@ -152,18 +166,23 @@ class History : AppCompatActivity() {
     }
 
     private fun count (exercise:ExerciseUserData){
-        if(exercise.exerciseGroupId==1){
-            ex1++
-        } else if(exercise.exerciseGroupId==2){
-            ex2++
-        } else if(exercise.exerciseGroupId==3){
-            ex3++
-        } else if(exercise.exerciseGroupId==4){
-            ex4++
+        when (exercise.exerciseGroupId) {
+            1 -> {
+                ex1++
+            }
+            2 -> {
+                ex2++
+            }
+            3 -> {
+                ex3++
+            }
+            4 -> {
+                ex4++
+            }
         }
     }
 
-    fun addEntriesToChart(){
+    private fun addEntriesToChart(){
         yValueGroupTemp.add(BarEntry(xVal, floatArrayOf(ex1.toFloat(), ex2.toFloat(), ex3.toFloat(), ex4.toFloat())))
         xVal++
     }
@@ -175,16 +194,13 @@ class History : AppCompatActivity() {
         ex4 = 0
     }
 
-    fun populateGraphData() {
+    private fun populateGraphData() {
 
-        var barChartView:BarChart = findViewById<BarChart>(R.id.chartConsumptionGraph)
+        val barChartView:BarChart = findViewById(R.id.chartConsumptionGraph)
 
-        val barWidth: Float = 0.50f
-        val barSpace: Float = 0.07f
-        val groupSpace: Float = 0.56f
-        val groupCount = 7
+        val barWidth = 0.50f
 
-        var xAxisValues = ArrayList<String>()
+        val xAxisValues = ArrayList<String>()
         xAxisValues.add("Mo")
         xAxisValues.add("Thu")
         xAxisValues.add("Wen")
@@ -193,11 +209,9 @@ class History : AppCompatActivity() {
         xAxisValues.add("Sat")
         xAxisValues.add("Sun")
 
-        var yValueGroup1 = ArrayList<BarEntry>()
-
         // draw the graph
-        var barDataSet1: BarDataSet
-        yValueGroup1 = yValueGroupTemp
+        val barDataSet1: BarDataSet
+        val yValueGroup1: ArrayList<BarEntry> = yValueGroupTemp
 
         barDataSet1 = BarDataSet(yValueGroup1, "")
         barDataSet1.setColors(-23296, -39017, -8612127, -5905976)
@@ -205,28 +219,28 @@ class History : AppCompatActivity() {
         barDataSet1.setDrawIcons(false)
         barDataSet1.setDrawValues(true)
 
-        var barData = BarData(barDataSet1)
+        val barData = BarData(barDataSet1)
 
         barChartView.description.isEnabled = false
         barChartView.description.textSize = 0f
         barData.setValueFormatter(LargeValueFormatter())
-        barChartView.setData(barData)
-        barChartView.getBarData().setBarWidth(barWidth)
-        barChartView.getXAxis().setAxisMinimum(0f)
-        barChartView.getXAxis().setAxisMaximum(7f)
+        barChartView.data = barData
+        barChartView.barData.barWidth = barWidth
+        barChartView.xAxis.axisMinimum = 0f
+        barChartView.xAxis.axisMaximum = 7f
         //   barChartView.setFitBars(true)
-        barChartView.getData().setHighlightEnabled(false)
+        barChartView.data.isHighlightEnabled = false
         barChartView.invalidate()
 
         // set bar label
-        var legend = barChartView.legend
-        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM)
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER)
-        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL)
+        val legend = barChartView.legend
+        legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+        legend.orientation = Legend.LegendOrientation.HORIZONTAL
         legend.setDrawInside(false)
         legend.formSize = 20f
 
-        var legenedEntries = arrayListOf<LegendEntry>()
+        val legenedEntries = arrayListOf<LegendEntry>()
 
         legenedEntries.add(LegendEntry("Shoulder", Legend.LegendForm.CIRCLE, 8f, 8f, null, -29696))
         legenedEntries.add(LegendEntry("Legs", Legend.LegendForm.CIRCLE, 8f, 8f, null, -39017))
@@ -235,22 +249,22 @@ class History : AppCompatActivity() {
 
         legend.setCustom(legenedEntries)
 
-        legend.setYOffset(10f)
-        legend.setXOffset(15f)
-        legend.setYEntrySpace(2f)
-        legend.setTextSize(15f)
+        legend.yOffset = 10f
+        legend.xOffset = 15f
+        legend.yEntrySpace = 2f
+        legend.textSize = 15f
 
-        val xAxis = barChartView.getXAxis()
-        xAxis.setGranularity(1f)
-        xAxis.setGranularityEnabled(true)
+        val xAxis = barChartView.xAxis
+        xAxis.granularity = 1f
+        xAxis.isGranularityEnabled = true
         xAxis.setCenterAxisLabels(true)
         xAxis.setDrawGridLines(false)
         xAxis.textSize = 9f
 
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM)
-        xAxis.setValueFormatter(IndexAxisValueFormatter(xAxisValues))
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.valueFormatter = IndexAxisValueFormatter(xAxisValues)
 
-        xAxis.setLabelCount(7)
+        xAxis.labelCount = 7
         xAxis.mAxisMaximum = 7f
         xAxis.setCenterAxisLabels(true)
         xAxis.setAvoidFirstLastClipping(true)
@@ -259,17 +273,17 @@ class History : AppCompatActivity() {
 
         barChartView.setVisibleXRangeMaximum(7f)
         barChartView.setVisibleXRangeMinimum(7f)
-        barChartView.setDragEnabled(true)
+        barChartView.isDragEnabled = true
 
         //Y-axis
-        barChartView.getAxisRight().setEnabled(false)
+        barChartView.axisRight.isEnabled = false
         barChartView.setScaleEnabled(true)
 
-        val leftAxis = barChartView.getAxisLeft()
-        leftAxis.setValueFormatter(LargeValueFormatter())
+        val leftAxis = barChartView.axisLeft
+        leftAxis.valueFormatter = LargeValueFormatter()
         leftAxis.setDrawGridLines(false)
-        leftAxis.setSpaceTop(1f)
-        leftAxis.setAxisMinimum(0f)
+        leftAxis.spaceTop = 1f
+        leftAxis.axisMinimum = 0f
 
 
         barChartView.data = barData

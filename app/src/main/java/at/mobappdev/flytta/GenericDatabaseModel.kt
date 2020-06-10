@@ -2,14 +2,13 @@ package at.mobappdev.flytta
 
 import android.content.ContentValues.TAG
 import android.util.Log
-import at.mobappdev.flytta.Exercise.Exercises
 import at.mobappdev.flytta.Exercise.Model.ExerciseInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class GenericDatabaseModel(){
+class GenericDatabaseModel{
     private lateinit var db: FirebaseFirestore
 
     //has to be called first!
@@ -38,7 +37,7 @@ class GenericDatabaseModel(){
     //Mehtod to add all Exercises to Database (only used once)
     private fun addExercisesToDB(){
         initDatabase()
-        var arrayList = ArrayList<ExerciseInfo>()
+        val arrayList = ArrayList<ExerciseInfo>()
         arrayList.add(
             ExerciseInfo(
                 1,
@@ -158,9 +157,8 @@ class GenericDatabaseModel(){
         )
 
         for(exercise in arrayList){
-            val exerciseInfo = exercise
             db.collection("exerciseData").document(exercise.exerciseId.toString())
-                .set(exerciseInfo)
+                .set(exercise)
                 .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
                 .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
         }
