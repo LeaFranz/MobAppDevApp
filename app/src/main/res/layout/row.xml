@@ -50,13 +50,12 @@
 
         <TextView
             android:id="@+id/text_view"
-            android:layout_width="92dp"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/imageView"
-            android:layout_marginStart="270dp"
+            android:layout_marginStart="320dp"
             android:layout_marginTop="140dp"
-            android:text="60 sec"
-            android:textAlignment="center"
+            android:text="60"
             android:textColor="@color/white"
             android:textSize="30sp" />
 

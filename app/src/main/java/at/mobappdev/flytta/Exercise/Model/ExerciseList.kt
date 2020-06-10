@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
@@ -33,7 +34,7 @@ class ExerciseList (private var arrayList: MutableList<ExerciseInfo>, val contex
             val storageReference = Firebase.storage.reference.child("Exercises/${model.imagePath}.png")
             itemView.tv_title.text = model.title
             itemView.tv_description.text = model.description
-            itemView.text_view.text = model.time.toString() + " sec"
+            itemView.text_view.text = model.time.toString()
             when (model.groupId) {
                 1 -> {
                     itemView.groupId.text = "Shoulder"
@@ -87,43 +88,14 @@ class ExerciseList (private var arrayList: MutableList<ExerciseInfo>, val contex
 
         holder.itemView.setOnClickListener{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if (position == 0) {
-                    saveExercise(arrayList.get(0).groupId)
-                    Toast.makeText(context , "Saved Exercise successfully!", Toast.LENGTH_LONG)
-                } else if (position == 1) {
-                    saveExercise(arrayList.get(1).groupId)
-                } else if (position == 2) {
-                    saveExercise(arrayList.get(2).groupId)
-                } else if (position == 3) {
-                    saveExercise(arrayList.get(3).groupId)
-                } else if (position == 4) {
-                    saveExercise(arrayList.get(4).groupId)
-                }else if (position == 5) {
-                    saveExercise(arrayList.get(5).groupId)
-                }else if (position == 6) {
-                    saveExercise(arrayList.get(6).groupId)
-                }else if (position == 7) {
-                    saveExercise(arrayList.get(7).groupId)
-                }else if (position == 8) {
-                    saveExercise(arrayList.get(8).groupId)
-                }else if (position == 9) {
-                    saveExercise(arrayList.get(9).groupId)
-                }else if (position == 10) {
-                    saveExercise(arrayList.get(10).groupId)
-                }else if (position == 11) {
-                    saveExercise(arrayList.get(11).groupId)
-                }else if (position == 12) {
-                    saveExercise(arrayList.get(12).groupId)
-                }else if (position == 13) {
-                    saveExercise(arrayList.get(13).groupId)
-                }else if (position == 14) {
-                    saveExercise(arrayList.get(14).groupId)
+                if(holder != null){
+                    timer(holder.itemView.text_view, position)
                 }
             }
         }
     }
 
-    private fun timer(text_view:TextView, exerciseId: Int){
+    private fun timer(text_view: TextView, exerciseId: Int){
         vibrateFound()
         var time : Int = text_view.text.toString().toInt()
         var timeValue : Long = time.toLong()*1000L
@@ -134,7 +106,6 @@ class ExerciseList (private var arrayList: MutableList<ExerciseInfo>, val contex
                     text_view.text = time.toString()
                     time--
                 }
-
                 override fun onFinish() {
                     text_view.text = initialValue.toString()
                     saveExercise(exerciseId)
