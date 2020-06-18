@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import at.mobappdev.flytta.R
 import at.mobappdev.flytta.history.ExerciseUserData
@@ -28,6 +29,8 @@ class ExerciseList (private var arrayList: MutableList<ExerciseInfo>, val contex
 
 
     //sets Values in every row from Exercises
+    var allreadyClicked : Boolean = false
+
     class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
 
         fun binItems(model:ExerciseInfo){
@@ -60,20 +63,6 @@ class ExerciseList (private var arrayList: MutableList<ExerciseInfo>, val contex
                     .into(itemView.imageView)
             }
         }
-        fun startTimer(time : Int, item : View){
-            var counter : Long = time.toLong()
-            var displayTime : Int = time
-            val timer = object: CountDownTimer(counter*1000, 1000) {
-                override fun onTick(millisUntilFinished: Long) {
-                    displayTime--
-                    item.text_view.text = displayTime.toString()
-                }
-                override fun onFinish() {
-                    item.text_view.text = time.toString()
-                }
-            }
-            timer.start()
-        }
     }
     //needed for RecyclerView
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -88,8 +77,12 @@ class ExerciseList (private var arrayList: MutableList<ExerciseInfo>, val contex
 
         holder.itemView.setOnClickListener{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if(holder != null){
+                if(holder != null && !allreadyClicked){
                     timer(holder.itemView.text_view, position)
+                }else if(allreadyClicked){
+                    var toast : Toast = Toast.makeText(context , "Exercise not finished! \n Wait until Timer is up.", Toast.LENGTH_SHORT)
+                    toast.view.setBackgroundColor(ContextCompat.getColor(context, R.color.warning))
+                    toast.show()
                 }
             }
         }
@@ -101,6 +94,7 @@ class ExerciseList (private var arrayList: MutableList<ExerciseInfo>, val contex
         var timeValue : Long = time.toLong()*1000L
         var initialValue : Int = time
         if(time != null){
+            allreadyClicked = true
             val timer = object: CountDownTimer(timeValue, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
                     text_view.text = time.toString()
@@ -110,6 +104,7 @@ class ExerciseList (private var arrayList: MutableList<ExerciseInfo>, val contex
                     text_view.text = initialValue.toString()
                     saveExercise(exerciseId)
                     vibrateFound()
+                    allreadyClicked = false
                 }
             }
             timer.start()

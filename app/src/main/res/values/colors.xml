@@ -21,4 +21,6 @@
     <color name="daySelectedTextColor">@android:color/white</color>
     <color name="dayDeselected">#FAFAFA</color>
     <color name="dayDeselectedTextColor">@android:color/black</color>
+
+    <color name="warning">#eb4034</color>
 </resources>
