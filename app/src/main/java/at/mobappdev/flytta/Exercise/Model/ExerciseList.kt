@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.row.view.*
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.*
+import kotlin.concurrent.timer
 import androidx.core.content.ContextCompat.getSystemService as getSystemService
 
 class ExerciseList (private var arrayList: MutableList<ExerciseInfo>, val context :Context): RecyclerView.Adapter<ExerciseList.ViewHolder>() {
@@ -78,7 +79,7 @@ class ExerciseList (private var arrayList: MutableList<ExerciseInfo>, val contex
         holder.itemView.setOnClickListener{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 if(holder != null && !allreadyClicked){
-                    timer(holder.itemView.text_view, position)
+                    timer(holder.itemView.text_view, arrayList[position].groupId)
                 }else if(allreadyClicked){
                     var toast : Toast = Toast.makeText(context , "Exercise not finished! \n Wait until Timer is up.", Toast.LENGTH_SHORT)
                     toast.view.setBackgroundColor(ContextCompat.getColor(context, R.color.warning))
@@ -122,7 +123,6 @@ class ExerciseList (private var arrayList: MutableList<ExerciseInfo>, val contex
         if(currentUser!=null){
             val exerciseUserData  = ExerciseUserData(exerciseGroupId, today.toString(), currentUser)
             Log.d("main", "current user uid ${FirebaseAuth.getInstance().uid}")
-
             val db = FirebaseFirestore.getInstance()
             db.collection("userExerciseData")
                 .document()
