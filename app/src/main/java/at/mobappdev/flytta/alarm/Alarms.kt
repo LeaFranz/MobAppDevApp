@@ -13,8 +13,11 @@ import kotlin.collections.ArrayList
 
 class Alarms {
     companion object {
+        var currentReminderId = ""
+
         fun setDailyAlarm(context: Context, item: ReminderListItem) {
             Log.i("Alarms", "Daily Alarm started: $item")
+            currentReminderId = item.reminderID
             ReminderPrefs.setCurrentEndTime(item.timeEnd, context)
             val alarmManger = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val startHour = item.timeStart.split(":")[0].toInt()
@@ -89,6 +92,7 @@ class Alarms {
 
         fun removeDailyAlarm(context: Context) {
             Log.i("Alarms", "Daily Reminder removed")
+            currentReminderId = ""
             val intent = Intent(context, DailyAlarmReceiver::class.java)
             val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
             val alarmManger = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager

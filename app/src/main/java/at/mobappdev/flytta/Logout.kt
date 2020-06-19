@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import at.mobappdev.flytta.alarm.Alarms
+import at.mobappdev.flytta.remindersettings.ReminderPrefs
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -24,6 +26,13 @@ class Logout : AppCompatActivity() {
 
     private fun logOut() {
         FirebaseAuth.getInstance().signOut()
+
+        if(Alarms.currentReminderId != ""){
+            ReminderPrefs.setSwitchActive(false, Alarms.currentReminderId, this)
+        }
+        Alarms.removeIntervalAlarm(this)
+        Alarms.removeDailyAlarm(this)
+
         val intent = Intent("at.mobappdev.flytta.login.RegisterActivity")
         startActivity(intent)
     }
