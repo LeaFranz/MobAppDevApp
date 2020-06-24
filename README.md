@@ -7,7 +7,7 @@ The exercise reminder Flytta (swedish: move) reminds you to take a break and off
 This app is a project for the lecture "Mobile Application Development" at the FH Joanneum (SS2020).  
 
 ## Requirements
-1. **Firebase Authentication:** registeration, login, logout
+1. **Firebase Authentication:** registration, login, logout
 2. **Firebase Storage:** storing of exercise images
 3. **Firebase Firestore:** saving user, reminder, exercises, exercise history
 
