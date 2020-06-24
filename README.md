@@ -1,4 +1,8 @@
-# Flytta - The Exercise Reminder  
+# Flytta - The Exercise Reminder
+
+Group: C
+Franz Lea, Trummer Julia
+
 The exercise reminder Flytta (swedish: move) reminds you to take a break and offers you a variety of exercises you can choose from.  
 This app is a project for the lecture "Mobile Application Development" at the FH Joanneum (SS2020).  
 
