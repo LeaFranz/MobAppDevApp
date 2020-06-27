@@ -44,6 +44,10 @@ class LoginActivity : AppCompatActivity() {
         )
     }
 
+    /**
+     * Firebase Authentication
+     * log in
+     */
     private fun logIn() {
         progressBar = findViewById(R.id.progressBarLogin)
         progressBar?.visibility = View.VISIBLE
@@ -70,6 +74,10 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
+    /**
+     * Checks for invalid or missing input
+     * returns TRUE for invalid input
+     */
     private fun hasInputValidationError(): Boolean {
         var validationError = false
 
@@ -77,11 +85,6 @@ class LoginActivity : AppCompatActivity() {
             emailLoginEditText.error = "Please enter text for an email address."
             validationError = true
         }
-        /*if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            emailLoginEditText.setError("Please enter a valid email address.")
-            emailLoginEditText.requestFocus()
-            validationError = true
-        }*/
         if (password.length < 6) {
             passwordLoginEditText.error = "Your password must have at least 6 characters."
             validationError = true

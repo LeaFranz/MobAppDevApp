@@ -46,7 +46,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    //creates notification channel for api26+
+    /**
+     * creates channel for sending notifications for api26+
+     */
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = channelName

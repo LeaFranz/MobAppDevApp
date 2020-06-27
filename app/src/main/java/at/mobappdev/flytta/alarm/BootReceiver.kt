@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
+//for starting alarm again after device restart
 class BootReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -19,6 +20,10 @@ class BootReceiver : BroadcastReceiver() {
             val db = Firebase.firestore
             val userId = auth.uid
 
+            /**
+             * Firebase Firestore
+             * getting all reminder from user from firestore
+             */
             if (userId != null) {
                 db.collection("users").document(userId).collection("reminder")
                     .get()
@@ -29,6 +34,7 @@ class BootReceiver : BroadcastReceiver() {
                                 "Getting reminder data was successful after reboot"
                             )
 
+                            //checking which reminder was active before
                             if (ReminderPrefs.getSwitchActive(
                                     document.id,
                                     context
@@ -44,6 +50,7 @@ class BootReceiver : BroadcastReceiver() {
                                     document.data["from"].toString(),
                                     document.data["to"].toString()
                                 )
+                                //setting daily alarm again
                                 Alarms.setDailyAlarm(context, item)
                             }
                         }

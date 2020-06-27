@@ -24,12 +24,17 @@ class Logout : AppCompatActivity() {
         }
     }
 
+    /**
+     * Firebase Authentication
+     * log out and remove reminder
+     */
     private fun logOut() {
         FirebaseAuth.getInstance().signOut()
 
         if(Alarms.currentReminderId != ""){
             ReminderPrefs.setSwitchActive(false, Alarms.currentReminderId, this)
         }
+
         Alarms.removeIntervalAlarm(this)
         Alarms.removeDailyAlarm(this)
 
@@ -37,6 +42,11 @@ class Logout : AppCompatActivity() {
         startActivity(intent)
     }
 
+    /**
+     * Firebase Firestore
+     * getting username from user
+     * collection: users, document: userId
+     */
     private fun getUsernameFromDB() {
         val db = Firebase.firestore
         val auth = FirebaseAuth.getInstance()

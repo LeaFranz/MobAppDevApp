@@ -40,11 +40,16 @@ class ReminderList : AppCompatActivity(),
         //function not needed
     }
 
+    //goes to screen for adding a reminder
     private fun onInsertReminderClicked() {
         val intent = Intent(this, ReminderSettings::class.java)
         startActivity(intent)
     }
 
+    /**
+     * Firebase Firestore
+     * gets all reminders from user for list
+     */
     private fun generateList() {
         val db = Firebase.firestore
         val userId = auth.uid
@@ -73,7 +78,7 @@ class ReminderList : AppCompatActivity(),
                         )
                         list.add(item)
                         counter++
-                        if (result.size() == counter) buildRecyclerView()
+                        if (result.size() == counter) buildRecyclerView() //build list after everything loaded
                     }
                 }
                 .addOnFailureListener { exception ->
@@ -83,6 +88,9 @@ class ReminderList : AppCompatActivity(),
         }
     }
 
+    /**
+     * build list with ReminderListAdapter
+     */
     private fun buildRecyclerView() {
         recycler_view.adapter =
             ReminderListAdapter(list, this)

@@ -40,7 +40,9 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-
+    /**
+     * Checks for logged in user and skips registration screen
+     */
     public override fun onStart() {
         super.onStart()
         val currentUser = auth.currentUser
@@ -59,6 +61,10 @@ class RegisterActivity : AppCompatActivity() {
         )
     }
 
+    /**
+     * Firebase Authentication
+     * registration
+     */
     private fun createAccount() {
         progressBar = findViewById(R.id.progressBarRegister)
         progressBar?.visibility = View.VISIBLE
@@ -88,6 +94,10 @@ class RegisterActivity : AppCompatActivity() {
             }
     }
 
+    /**
+     * Checks for invalid or missing input
+     * returns TRUE for invalid input
+     */
     private fun hasInputValidationError():Boolean{
         var validationError = false
 
@@ -99,11 +109,6 @@ class RegisterActivity : AppCompatActivity() {
             emailRegisterEditText.error = "Please enter text for an email address."
             validationError = true
         }
-//        if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-//            emailRegisterEditText.setError("Please enter a valid email address.")
-//            emailRegisterEditText.requestFocus()
-//            validationError = true
-//        }
         if (password.length < 6) {
             passwordRegisterEditText.error = "Your password must have at least 6 characters."
             validationError = true
@@ -112,6 +117,11 @@ class RegisterActivity : AppCompatActivity() {
        return validationError
     }
 
+    /**
+     * Firebase Firestore
+     * stores user in db
+     * collection: users, document: userId
+     */
     private fun saveUserToDB(userName: String, email: String) {
         val db = Firebase.firestore
         val user = hashMapOf(

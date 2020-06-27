@@ -20,26 +20,35 @@ class ReminderListAdapter(
     private var clickListener: OnItemClickListener
 ) : RecyclerView.Adapter<ReminderListAdapter.ViewHolder>() {
 
-    private var rowIndex: Int = -1
+    private var rowIndex: Int = -1 //no reminder is active, usually index of activated reminder
     private lateinit var viewHolder: ViewHolder
 
+    //click listener for items
     interface OnItemClickListener {
         fun onItemClicked(item: ReminderListItem, position: Int)
     }
 
+    /**
+     * reminder gets deleted via context menu
+     * index: index of to be removed item
+     */
     private fun deleteItem(index: Int) {
         if (rowIndex == index) { //active reminder
-            rowIndex = -1
+            rowIndex = -1 //no reminder activated
             Alarms.removeDailyAlarm(viewHolder.itemView.context)
             Alarms.removeIntervalAlarm(viewHolder.itemView.context)
         } else if(isActiveSwitchAfterIndex(index)) {
-            rowIndex -= 1
+            rowIndex -= 1 //changes rowIndex to new index of activated reminder
         }
 
         list.removeAt(index)
-        notifyChange()
+        notifyChange() //update view
     }
 
+    /**
+     * checks is currently activated switch is after the deleted switch
+     * eg. activated (index 5), deleted reminder (index 3)
+     */
     private fun isActiveSwitchAfterIndex(currentIndex:Int):Boolean{
         for((index, _) in list.withIndex()){
             if(ReminderPrefs.getSwitchActive(list[index].reminderID, viewHolder.itemView.context)){
@@ -51,6 +60,11 @@ class ReminderListAdapter(
         return false
     }
 
+    /**
+     * creates viewholder
+     * views are created
+     * https://medium.com/androiddevelopers/android-data-binding-recyclerview-db7c40d9f0e4
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
             R.layout.item,
@@ -61,20 +75,27 @@ class ReminderListAdapter(
         )
     }
 
+    /**
+     * binds viewholder
+     * specific data is assigned to views
+     * called for every item
+     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val switch = holder.itemView.findViewById<Switch>(R.id.remSwitch)
         viewHolder = holder
 
         holder.initialize(list[position], clickListener)
 
-        if (rowIndex == -1) { //nothing active
+        if (rowIndex == -1) { //no switch currently active
             switch.isChecked =
                 ReminderPrefs.getSwitchActive(list[position].reminderID, holder.itemView.context)
             if (switch.isChecked) {
                 rowIndex = position
             }
         } else {
-            switch.isChecked = (position == rowIndex)
+            // there is an active switch
+            switch.isChecked = (position == rowIndex) //check if current switch is the checked one
+            //unchecks a switch if another one gets checked
             ReminderPrefs.setSwitchActive(
                 (position == rowIndex),
                 list[position].reminderID,
@@ -82,6 +103,7 @@ class ReminderListAdapter(
             )
         }
 
+        //listening to click on switch
         switch.setOnClickListener {
             if (position == rowIndex) {
                 //deactivate reminder
@@ -91,14 +113,14 @@ class ReminderListAdapter(
                     list[position].reminderID,
                     holder.itemView.context
                 )
-                rowIndex = -1
+                rowIndex = -1 //no reminder active
                 Alarms.removeDailyAlarm(holder.itemView.context)
                 Alarms.removeIntervalAlarm(holder.itemView.context)
             } else {
                 //activate reminder
                 Alarms.setDailyAlarm(holder.itemView.context, list[position])
                 rowIndex = position
-                notifyChange()
+                notifyChange() //notify other reminders - calls onBindViewHolder
             }
         }
     }
@@ -115,7 +137,10 @@ class ReminderListAdapter(
 
     override fun getItemCount() = list.size
 
-
+    /**
+     * Viewholder class
+     * the actual item view
+     */
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
         private val reminderName: TextView = itemView.reminderName
@@ -136,7 +161,7 @@ class ReminderListAdapter(
 
             var dayText = ""
             var counter = 0
-            for (day in item.days) {
+            for (day in item.days) { //concat of days
                 counter++
                 dayText += if (counter == item.days.size) {
                     day.toString().toLowerCase(Locale.ROOT).capitalize()
@@ -147,12 +172,15 @@ class ReminderListAdapter(
             }
             days.text = dayText
 
-            itemView.setOnCreateContextMenuListener(this)
+            itemView.setOnCreateContextMenuListener(this) //context menu for deleting item
             itemView.setOnClickListener {
                 listener.onItemClicked(item, adapterPosition)
             }
         }
 
+        /**
+         * creating context menu
+         */
         override fun onCreateContextMenu(
             menu: ContextMenu?,
             v: View?,
@@ -162,6 +190,11 @@ class ReminderListAdapter(
             item?.setOnMenuItemClickListener(this)
         }
 
+        /**
+         * Firestore Firebase
+         * deleting reminder from db
+         * listener for context menu click
+         */
         override fun onMenuItemClick(item: MenuItem?): Boolean {
             val db = Firebase.firestore
             val userId = auth.uid
@@ -175,7 +208,7 @@ class ReminderListAdapter(
                             "reminderlistadapter",
                             "Reminder successfully deleted. "
                         )
-                        deleteItem(adapterPosition)
+                        deleteItem(adapterPosition) //deleting item from list
                     }
                     .addOnFailureListener { e ->
                         Log.w(

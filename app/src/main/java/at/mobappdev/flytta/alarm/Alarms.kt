@@ -15,6 +15,9 @@ class Alarms {
     companion object {
         var currentReminderId = ""
 
+        /**
+         * sets alarm that gets called daily using AlarmManager
+         */
         fun setDailyAlarm(context: Context, item: ReminderListItem) {
             Log.i("Alarms", "Daily Alarm started: $item")
             currentReminderId = item.reminderID
@@ -27,7 +30,7 @@ class Alarms {
                 DailyAlarmReceiver::class.java
             )
 
-            //for starting on reboot
+            //starting on reboot only worked with giving the params to the receiver via the intent
             intent.putExtra("startTime", item.timeStart)
             intent.putExtra("interval", item.interval)
             intent.putExtra("endTime", item.timeEnd)
@@ -36,20 +39,24 @@ class Alarms {
             val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
             val calendar: Calendar = Calendar.getInstance().apply {
                 timeInMillis = System.currentTimeMillis()
-
                 set(Calendar.HOUR_OF_DAY, startHour)
                 set(Calendar.MINUTE, startMinutes)
             }
 
             alarmManger.setRepeating(
                 AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                1000 * (24 * 60 * 60) * 1,
+                calendar.timeInMillis, //start time
+                1000 * (24 * 60 * 60) * 1, //every day
                 pendingIntent
             )
         }
 
 
+        /**
+         * sets alarm using the specified interval
+         * gets called every day from DailyAlarmReceiver
+         * params: from intent from dailyAlarm
+         */
         fun setIntervalAlarm(
             context: Context,
             start: String,
@@ -64,7 +71,9 @@ class Alarms {
             val timeFormatter = SimpleDateFormat("HH:mm", Locale.GERMAN)
             val weekdayFormatter = SimpleDateFormat("EEEE", Locale.UK)
             val currentTime = timeFormatter.format(date)
+
             val dayOfWeek = weekdayFormatter.format(date)
+            //check if current day is in list
             val dayInList =
                 days.find { day -> dayOfWeek.toUpperCase(Locale.ROOT) == day }
 
@@ -79,17 +88,22 @@ class Alarms {
                 set(Calendar.HOUR_OF_DAY, startHour)
                 set(Calendar.MINUTE, startMinutes)
             }
+
+            //reminder starts if the day is in the list and the time frame is not over for the day
             if (currentTime < end && dayInList != null) {
                 Log.i("Alarms", "Interval Reminder started")
                 alarmManger.setRepeating(
                     AlarmManager.RTC_WAKEUP,
-                    calendar.timeInMillis,
-                    1000 * (interval * 60) * 1,
+                    calendar.timeInMillis, //star time
+                    1000 * (interval * 60) * 1, //interval
                     pendingIntent
                 )
             }
         }
 
+        /**
+         * cancels daily alarm
+         */
         fun removeDailyAlarm(context: Context) {
             Log.i("Alarms", "Daily Reminder removed")
             currentReminderId = ""
@@ -99,6 +113,9 @@ class Alarms {
             alarmManger.cancel(pendingIntent)
         }
 
+        /**
+         * cancels interval alarm
+         */
         fun removeIntervalAlarm(context: Context) {
             Log.i("Alarms", "Interval Reminder removed")
             val intent = Intent(context, IntervalAlarmReceiver::class.java)

@@ -84,6 +84,11 @@ class ReminderSettings : AppCompatActivity() {
         }
     }
 
+    /**
+     * Firebase Firestore
+     * storing reminder in db
+     * collection:users, document: userId, collection: reminder, document: generated id
+     */
     private fun saveReminderToDB() {
         val db = Firebase.firestore
         val userId = auth.uid
@@ -106,10 +111,13 @@ class ReminderSettings : AppCompatActivity() {
                 }
         }
 
-        val intent = Intent(this, ReminderList::class.java)
+        val intent = Intent(this, ReminderList::class.java) //going back to reminder list
         startActivity(intent)
     }
 
+    /**
+     * for enabling save button only if every input is valid
+     */
     private fun allSettingsDone() {
         saveButton.isEnabled =
             dayPicker.selectedDays.isNotEmpty() && reminderTo.text.isNotEmpty() && reminderFrom.text.isNotEmpty() && reminderName.text.isNotEmpty() && minutes.progress != 0 && timesValid
@@ -120,6 +128,11 @@ class ReminderSettings : AppCompatActivity() {
         }
     }
 
+    /**
+     * showing timer picker dialog and setting time
+     * called from edittext from/to listener
+     * reminder: edittext-widget, text: From:/To:
+     */
     private fun onTimePicked(reminder: EditText, text: String) {
         val calendar = Calendar.getInstance()
         val timeSetListener =
@@ -138,19 +151,23 @@ class ReminderSettings : AppCompatActivity() {
         ).show()
     }
 
+    /**
+     * checks if picked times are valid and calls allSettingsDone()
+     * currentTime: picked time (eg. 9:17), currentText: From:/To:, reminder: edittext-widget
+     */
     private fun areTimesValid(currentTime: String, currentText: String, reminder: EditText) {
         reminder.setText(getString(R.string.time, currentText,currentTime))
         if (currentText == "To: " && reminderFrom.text.toString() != "") {
-            val start = reminderFrom.text.toString().split(" ")[1]
-            if (start > currentTime) {
+            val start = reminderFrom.text.toString().split(" ")[1] //takes time from eg. From: 09:17
+            if (start > currentTime) { //picked to-time is before from-time
                 reminder.setTextColor(Color.parseColor("#FF0000"))
-                timesValid = false
+                timesValid = false //unused variable :(
                 allSettingsDone()
             }
 
         } else if (currentText == "From: " && reminderTo.text.toString() != "") {
             val end = reminderTo.text.toString().split(" ")[1]
-            if (end < currentTime) {
+            if (end < currentTime) { //picked from-time is is after to-time
                 reminder.setTextColor(Color.parseColor("#FF0000"))
                 timesValid = false
                 allSettingsDone()
@@ -160,7 +177,7 @@ class ReminderSettings : AppCompatActivity() {
         if (reminderTo.text.toString() != "" && reminderFrom.text.toString() != "") {
             val start = reminderFrom.text.toString().split(" ")[1]
             val end = reminderTo.text.toString().split(" ")[1]
-            if (end > start) {
+            if (end > start) { //from-time is before-start time
                 reminderTo.setTextColor(Color.parseColor("#000000"))
                 reminderFrom.setTextColor(Color.parseColor("#000000"))
                 timesValid = true
