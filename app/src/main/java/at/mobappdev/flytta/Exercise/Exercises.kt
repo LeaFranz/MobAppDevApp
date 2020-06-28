@@ -27,6 +27,10 @@ class Exercises : AppCompatActivity() {
         getAllDataFromCollection()
     }
 
+    /**
+     * Getting allExercises from Firestore
+     * ifSuccesfull createrecycleriew
+     */
     private fun getAllDataFromCollection(){
         val exerciseList : MutableList<ExerciseInfo> = ArrayList()
         val db = Firebase.firestore

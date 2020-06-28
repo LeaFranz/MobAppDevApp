@@ -60,9 +60,11 @@ class History : AppCompatActivity() {
         }
         getAllExerciseData()
     }
-
+    /**
+    Build.VERSION_CODES.O - is a reference to API level 26 (Android Oreo which is Android 8)
+     */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun dateMon(){
+    private fun dateMon(){
         val zoneId : ZoneId = ZoneId.of("Europe/Paris")
         val today = LocalDate.now(zoneId)
         previousMon  = today.with(TemporalAdjusters.previous(DayOfWeek.MONDAY))
@@ -74,6 +76,10 @@ class History : AppCompatActivity() {
         previousSun = today.with(TemporalAdjusters.previous(DayOfWeek.SUNDAY))
         getTodaysWeekDay(today)
     }
+
+    /**
+     * Which day is today - so we get the Historydata from this day
+     */
     private fun getTodaysWeekDay(today : LocalDate){
         when (today.dayOfWeek.toString()) {
             "MONDAY" -> {
@@ -100,6 +106,10 @@ class History : AppCompatActivity() {
         }
     }
 
+    /**
+    getting all ExerciseData from Firestore
+    getting userspecific
+     */
     private fun getAllExerciseData(){
         val db = Firebase.firestore
         db.collection("userExerciseData")
@@ -117,6 +127,9 @@ class History : AppCompatActivity() {
             }
     }
 
+    /**
+     * MPAndroid needs sorted Data - every week day has its own List
+     */
     private fun sortdata(){
         for(exercise in exerciseUserDataWeekly){
             when (exercise.exerciseTimestamp) {
@@ -182,6 +195,9 @@ class History : AppCompatActivity() {
         }
     }
 
+    /**
+     * adding values to MPAndroidChart
+     */
     private fun addEntriesToChart(){
         yValueGroupTemp.add(BarEntry(xVal, floatArrayOf(ex1.toFloat(), ex2.toFloat(), ex3.toFloat(), ex4.toFloat())))
         xVal++

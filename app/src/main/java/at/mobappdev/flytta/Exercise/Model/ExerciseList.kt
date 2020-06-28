@@ -53,6 +53,9 @@ class ExerciseList (private var arrayList: MutableList<ExerciseInfo>, val contex
                     itemView.groupId.text = "Others"
                 }
             }
+            /**
+             * Glide getting the pictures from Firestorage
+             */
             storageReference.downloadUrl.addOnSuccessListener{Uri->
                 val imageUrl = Uri.toString()
                 Glide.with(itemView)
@@ -65,7 +68,10 @@ class ExerciseList (private var arrayList: MutableList<ExerciseInfo>, val contex
             }
         }
     }
-    //needed for RecyclerView
+    /**
+     * needed for RecyclerView
+     * Inflating" a view means taking the layout XML and parsing it to create the view and viewgroup
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.row, parent, false)
         return ViewHolder(v)
@@ -89,6 +95,11 @@ class ExerciseList (private var arrayList: MutableList<ExerciseInfo>, val contex
         }
     }
 
+    /**
+     * Timer for Exercises
+     * OnTick: every time a second is over change the countNumber
+     * OnFinish: if counter at 0 then set countNumber to original
+     */
     private fun timer(text_view: TextView, exerciseId: Int){
         vibrateFound()
         var time : Int = text_view.text.toString().toInt()
@@ -113,7 +124,10 @@ class ExerciseList (private var arrayList: MutableList<ExerciseInfo>, val contex
     }
 
 
-    //write to DB when exercise is started - needed for History
+    /**
+     * write to DB when exercise is finished - needed for History
+     * minimum SDK 26
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun saveExercise(exerciseGroupId : Int) {
         vibrateFound()
@@ -134,9 +148,13 @@ class ExerciseList (private var arrayList: MutableList<ExerciseInfo>, val contex
         }
     }
 
+    /**
+     * Checking if SDK is above 26
+     * Virbate not available before
+     */
     private fun vibrateFound(){
-        val vibe = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         if (Build.VERSION.SDK_INT >= 26) {
+            val vibe = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             vibe.vibrate(VibrationEffect.createOneShot(250, VibrationEffect.DEFAULT_AMPLITUDE))
         } else {
             Toast.makeText(context, "Cannot use Vibration", Toast.LENGTH_SHORT).show()
